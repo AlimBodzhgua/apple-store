@@ -1,0 +1,21 @@
+services:
+   postgres:
+    container_name: apple-store-pg-db
+    image: postgres:17-alpine
+    restart: unless-stopped
+    environment:
+      - POSTGRES_DB=apple-store-db
+      - POSTGRES_USER=alim
+      - POSTGRES_PASSWORD=alim123567
+    ports:
+      - 5432:5432
+    volumes: 
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
+
+volumes:
+  pgdata:
