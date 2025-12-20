@@ -3,7 +3,7 @@
 import { useActionState } from 'react';
 import { FormStateType, signInUserAction } from '@/app/actions/auth';
 import { PasswordInput } from '@/components/ui/password-input';
-import { Container } from '@/components/shared/container';
+import { Container } from '@/components/shared';
 import { Input } from '@/components/ui/input';
 import { cn } from '@/shared/lib/utils';
 import Link from 'next/link';

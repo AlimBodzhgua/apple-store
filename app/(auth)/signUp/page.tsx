@@ -2,7 +2,7 @@
 
 import { useActionState } from 'react';
 import { FormStateType, signUpUserAction } from '@/app/actions/auth';
-import { Container } from '@/components/shared/container';
+import { Container } from '@/components/shared';
 import { Input } from '@/components/ui/input';
 import { PasswordInput } from '@/components/ui/password-input';
 import { cn } from '@/shared/lib/utils';
