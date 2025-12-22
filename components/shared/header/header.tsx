@@ -1,3 +1,5 @@
+'use server';
+
 import type { FC } from 'react';
 import { headers } from 'next/headers';
 import { ShoppingCart as ShoppingCartIcon } from 'lucide-react';
