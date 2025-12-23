@@ -10,7 +10,7 @@ import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { auth } from '@/shared/lib/auth';
 import { cn } from '@/shared/lib/utils';
-import { UserDropdownMenu } from './user-dropdown-menu';
+import { UserDropdownMenu } from '../user-dropdown-menu';
 
 type HeaderProps = {
 	className?: string;
