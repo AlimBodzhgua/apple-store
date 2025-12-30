@@ -1,76 +1,118 @@
 
 generator client {
-  provider = "prisma-client"
-  output   = "./generated/prisma"
+	provider = "prisma-client"
+  	output   = "./generated/prisma"
 }
 
 datasource db {
-  provider = "postgresql"
+	provider = "postgresql"
 }
 
 model User {
-  id       String @id @default(cuid())
-  email    String @unique
-  login    String?
+  	id       String @id @default(cuid())
 
-  createdAt     DateTime  @default(now())
-  name          String
-  emailVerified Boolean   @default(false)
-  image         String?
-  updatedAt     DateTime  @updatedAt
-  sessions      Session[]
-  accounts      Account[]
+  	email    		String @unique
+  	emailVerified 	Boolean   @default(false)
 
-  @@map("user")
+  	login		String?
+  	name		String
+  	image		String?
+
+	createdAt     DateTime  @default(now())
+  	updatedAt     DateTime  @updatedAt
+
+  	sessions      Session[]
+  	accounts      Account[]
+
+	@@map("user")
 }
 
 model Session {
-  id        String   @id
-  expiresAt DateTime
-  token     String
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  ipAddress String?
-  userAgent String?
+  	id        	String   @id
+  	expiresAt	DateTime
+  	token     	String
+  	createdAt 	DateTime @default(now())
+  	updatedAt 	DateTime @updatedAt
+  	ipAddress 	String?
+  	userAgent 	String?
 
-  user		User	@relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId    String
+  	user		User	@relation(fields: [userId], references: [id], onDelete: Cascade)
+  	userId    	String
 
-  @@unique([token])
-  @@index([userId])
-  @@map("session")
+  	@@unique([token])
+  	@@index([userId])
+  	@@map("session")
 }
 
 model Account {
-  id                    String    @id
-  accountId             String
-  providerId            String
+  	id                    String    @id
+  	accountId             String
+	providerId            String
 
-  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  userId                String
+  	user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  	userId                String
 
-  accessToken           String?
-  refreshToken          String?
-  idToken               String?
-  accessTokenExpiresAt  DateTime?
-  refreshTokenExpiresAt DateTime?
-  scope                 String?
-  password              String?
-  createdAt             DateTime  @default(now())
-  updatedAt             DateTime  @updatedAt
+  	accessToken           String?
+  	refreshToken          String?
+  	idToken               String?
+  	accessTokenExpiresAt  DateTime?
+  	refreshTokenExpiresAt DateTime?
+  	scope                 String?
+  	password              String?
 
-  @@index([userId])
-  @@map("account")
+  	createdAt             DateTime  @default(now())
+  	updatedAt             DateTime  @updatedAt
+
+	@@index([userId])
+	@@map("account")
 }
 
 model Verification {
-  id         String   @id
-  identifier String
-  value      String
-  expiresAt  DateTime
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+	id         String   @id
+  	identifier String
+  	value      String
 
-  @@index([identifier])
-  @@map("verification")
+  	expiresAt  DateTime
+  	createdAt  DateTime @default(now())
+  	updatedAt  DateTime @updatedAt
+
+  	@@index([identifier])
+  	@@map("verification")
+}
+
+
+model Product {
+	id 				String 	@id @default(cuid())
+	name 			String	@unique
+	slug			String 	@unique
+
+	description 	String
+	price 			Int
+
+	category	Category	@relation(fields: [categoryId], references: [id])
+	categoryId	String
+
+	color		Color		@relation(fields: [colorId], references: [id])
+	colorId		String
+
+	createdAt DateTime	@default(now())
+	updatedAt DateTime 	@updatedAt()
+}
+
+model Category {
+	id		String 	@id @default(cuid())
+	name 	String 	@unique
+	description String?
+
+	products Product[]
+}
+
+
+model Color {
+	id		String	@id @default(cuid())
+	name	String 	@unique
+	slug 	String 	@unique
+	hexCode	String
+
+	products	Product[]
 }

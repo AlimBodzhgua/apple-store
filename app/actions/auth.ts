@@ -1,9 +1,10 @@
 'use server';
 
-import { auth } from '@/shared/lib/auth';
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import z from 'zod';
+
+import { auth } from '@/shared/lib/auth';
 
 export type FormStateErrors = {
 	email?: string[];
