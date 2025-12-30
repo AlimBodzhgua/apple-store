@@ -13,9 +13,9 @@ export type DashboardFormsStateErrors = {
 	colorId?: string[];
 	categoryId?: string[];
 	general?: string;
-}
+};
 
-export type DashboardFormsStateType = FormStateType<DashboardFormsStateErrors>
+export type DashboardFormsStateType = FormStateType<DashboardFormsStateErrors>;
 
 const colorFormSchema = z.object({
 	name: z.string().min(4, { message: 'Color name must contain at leat 4 characters' }),
