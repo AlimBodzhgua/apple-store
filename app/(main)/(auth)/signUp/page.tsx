@@ -1,20 +1,20 @@
 'use client';
 
 import { useActionState } from 'react';
-import { FormStateType, signUpUserAction } from '@/app/actions/auth';
-import { Container } from '@/components/shared';
-import { Input } from '@/components/ui/input';
-import { PasswordInput } from '@/components/ui/password-input';
-import { cn } from '@/shared/lib/utils';
 import Link from 'next/link';
 import Image from 'next/image';
+import { type AuthFormsStateType, signUpUserAction } from '@/app/actions/auth';
+import { PasswordInput } from '@/components/ui/password-input';
+import { Container } from '@/components/shared';
+import { Input } from '@/components/ui/input';
+import { cn } from '@/shared/lib/utils';
 import { SubmitButton } from '../submit-button';
 
 type SignUpProps = {
 	className?: string;
 };
 
-const initialState: FormStateType = {
+const initialState: AuthFormsStateType = {
 	errors: {},
 	success: false,
 	message: '',

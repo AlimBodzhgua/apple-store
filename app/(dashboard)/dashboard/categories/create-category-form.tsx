@@ -1,7 +1,7 @@
 'use client';
 
 import { useActionState } from 'react';
-import { createCategoryAction, type FormStateType } from '@/app/actions/dashboard';
+import { createCategoryAction, type DashboardFormsStateType } from '@/app/actions/dashboard';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -12,7 +12,7 @@ type CreateCategoryFormProps = {
 	className?: string;
 };
 
-const initialState: FormStateType = {
+const initialState: DashboardFormsStateType = {
 	errors: undefined,
 	success: false,
 	message: '',

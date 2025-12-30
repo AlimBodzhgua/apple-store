@@ -1,9 +1,10 @@
 'use server';
 
-import { prisma } from '@/shared/lib/prisma';
 import { z } from 'zod';
+import { prisma } from '@/shared/lib/prisma';
+import type { FormStateType } from '@/shared/types';
 
-export type FormStateErrors = {
+export type DashboardFormsStateErrors = {
 	name?: string[];
 	slug?: string[];
 	description?: string[];
@@ -14,11 +15,7 @@ export type FormStateErrors = {
 	general?: string;
 }
 
-export type FormStateType = {
-    errors?: FormStateErrors;
-    success?: boolean;
-    message?: string;
-};
+export type DashboardFormsStateType = FormStateType<DashboardFormsStateErrors>
 
 const colorFormSchema = z.object({
 	name: z.string().min(4, { message: 'Color name must contain at leat 4 characters' }),
@@ -27,9 +24,9 @@ const colorFormSchema = z.object({
 });
 
 export const createColorAction = async (
-	prevState: FormStateType | null,
+	prevState: DashboardFormsStateType | null,
 	data: FormData,
-): Promise<FormStateType> => {
+): Promise<DashboardFormsStateType> => {
 	const name = data.get('name');
 	const slug = data.get('slug');
 	const hexCode = data.get('hexCode');
@@ -81,9 +78,9 @@ const categoryFormSchema = z.object({
 });
 
 export const createCategoryAction = async (
-	prevState: FormStateType | null,
+	prevState: DashboardFormsStateType | null,
 	data: FormData,
-): Promise<FormStateType> => {
+): Promise<DashboardFormsStateType> => {
 	const name = data.get('name');
 	const description = data.get('description');
 
@@ -136,9 +133,9 @@ const productFormSchema = z.object({
 });
 
 export const createProductAction = async (
-	prevState: FormStateType | null,
+	prevState: DashboardFormsStateType | null,
 	data: FormData,
-): Promise<FormStateType> => {
+): Promise<DashboardFormsStateType> => {
 	console.log(data);
 	const name = data.get('name');
 	const slug = data.get('slug');

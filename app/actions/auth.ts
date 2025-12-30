@@ -3,21 +3,17 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import z from 'zod';
-
 import { auth } from '@/shared/lib/auth';
+import type { FormStateType } from '@/shared/types';
 
-export type FormStateErrors = {
+export type AuthFormsStateErrors = {
 	email?: string[];
 	password?: string[];
 	name?: string[];
 	general?: string;
-}
-
-export type FormStateType = {
-    errors?: FormStateErrors;
-    success?: boolean;
-    message?: string;
 };
+
+export type AuthFormsStateType = FormStateType<AuthFormsStateErrors>;
 
 const signUpFormSchema = z.object({
 	email: z.email('Incorrect email format'),
@@ -26,9 +22,9 @@ const signUpFormSchema = z.object({
 });
 
 export const signUpUserAction = async (
-	prevState: FormStateType | null,
+	prevState: AuthFormsStateType | null,
 	data: FormData,
-): Promise<FormStateType> => {
+): Promise<AuthFormsStateType> => {
 	const email = data.get('email');
 	const password = data.get('password');
 	const name = data.get('name');
@@ -75,9 +71,9 @@ const signInFormSchema = z.object({
 });
 
 export const signInUserAction = async (
-	prevState: FormStateType | null,
+	prevState: AuthFormsStateType | null,
 	data: FormData,
-): Promise<FormStateType> => {
+): Promise<AuthFormsStateType> => {
 	const email = data.get('email');
 	const password = data.get('password');
 

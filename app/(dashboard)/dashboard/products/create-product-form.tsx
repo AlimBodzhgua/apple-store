@@ -1,7 +1,7 @@
 'use client';
 
 import { ReactNode, useActionState } from 'react';
-import { createProductAction, type FormStateType } from '@/app/actions/dashboard';
+import { createProductAction, type DashboardFormsStateType } from '@/app/actions/dashboard';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -13,7 +13,7 @@ type CreateProductProps = {
 	additionalFormSelectors: ReactNode;
 };
 
-const initialState: FormStateType = {
+const initialState: DashboardFormsStateType = {
 	errors: undefined,
 	success: false,
 	message: '',
