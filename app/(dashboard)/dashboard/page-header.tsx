@@ -1,6 +1,6 @@
 'use client';
 
-import { type ReactNode, useState } from 'react';
+import { type ReactNode, Activity, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/shared/lib/utils';
 
@@ -33,7 +33,9 @@ export function PageHeader(props: PageHeaderProps) {
 				</Button>
 			</div>
 
-			{showForm && form}
+			<Activity mode={showForm ? 'visible' : 'hidden'}>
+				{form}				
+			</Activity>
 		</>
 	);
 }
