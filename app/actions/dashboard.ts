@@ -136,7 +136,6 @@ export const createProductAction = async (
 	prevState: DashboardFormsStateType | null,
 	data: FormData,
 ): Promise<DashboardFormsStateType> => {
-	console.log(data);
 	const name = data.get('name');
 	const slug = data.get('slug');
 	const description = data.get('description');
@@ -157,7 +156,7 @@ export const createProductAction = async (
 
 	if (!validationResult.success) {
 		const flatten = z.flattenError(validationResult.error);
-		console.log(flatten.fieldErrors);
+		
 		return {
 			errors: {
 				name: flatten.fieldErrors.name,
@@ -177,7 +176,7 @@ export const createProductAction = async (
 				name: name as string,
 				slug: slug as string,
 				description: description as string,
-				price: price as unknown as number,
+				price: Number(price),
 				colorId: colorId as string,
 				categoryId: categoryId as string,
 			},
