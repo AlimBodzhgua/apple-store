@@ -23,31 +23,35 @@ export function CraeteCategoryForm({ className }: CreateCategoryFormProps) {
 
 	return (
 		<form className={cn(className)} action={formAction}>
-			<Label htmlFor='name' className='pl-1 mb-1'>
-				Name
-			</Label>
-			<Input name='name' id='name' placeholder='Enter name' className='mb-3' />
+			<div className='mb-3'>
+				<Label htmlFor='name' className='pl-1 mb-1'>
+					Name
+				</Label>
+				<Input name='name' id='name' placeholder='Enter name' className='mb-3' />
 
-			{state.errors?.name && (
-				<div className='text-red-400 w-full text-left'>{state.errors.name}</div>
-			)}
+				{state.errors?.name && (
+					<div className='text-red-400 w-full text-left pl-1'>{state.errors.name}</div>
+				)}
+			</div>
 
-			<Label htmlFor='description' className='pl-1 mb-1'>
-				Description
-			</Label>
-			<Textarea
-				name='description'
-				id='description'
-				placeholder='Enter category description'
-				className='mb-3'
-			/>
+			<div className='mb-3'>
+				<Label htmlFor='description' className='pl-1 mb-1'>
+					Description
+				</Label>
+				<Textarea
+					name='description'
+					id='description'
+					placeholder='Enter category description'
+					className='mb-3'
+				/>
 
-			{state.errors?.description && (
-				<div className='text-red-400 w-full text-left'>{state.errors.description}</div>
-			)}
+				{state.errors?.description && (
+					<div className='text-red-400 w-full text-left pl-1'>{state.errors.description}</div>
+				)}
+			</div>
 
 			{state.errors?.general && (
-				<div className='text-red-400 w-full text-left'>{state.errors.general}</div>
+				<div className='text-red-400 w-full text-left pl-1'>{state.errors.general}</div>
 			)}
 
 			<SubmitButton />
