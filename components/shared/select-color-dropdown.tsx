@@ -7,12 +7,17 @@ import {
 } from '@/components/ui/color-picker';
 import { DropdownMenu, DropdownMenuContent, DropdownMenuTrigger } from '@/components/ui/dropdown-menu';
 import { Button } from '../ui/button';
+import { cn } from '@/shared/lib/utils';
 
-export const SelectColorDropdown = () => {
+type SelectColoDropdownProps = {
+	className?: string;
+}
+
+export const SelectColorDropdown = ({ className }: SelectColoDropdownProps) => {
 	return (
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
-				<Button className='bg-blue-500 hover:bg-blue-600'>
+				<Button className={cn('bg-blue-500 hover:bg-blue-600', className)}>
 					Select Color <span>&#9660;</span>
 				</Button>
 			</DropdownMenuTrigger>

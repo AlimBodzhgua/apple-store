@@ -19,8 +19,19 @@ export type DashboardFormsStateType = FormStateType<DashboardFormsStateErrors>;
 
 const colorFormSchema = z.object({
 	name: z.string().min(4, { message: 'Color name must contain at leat 4 characters' }),
-	slug: z.string().min(4, { message: 'Slug must contain at least 4 characters.' }),
-	hexCode: z.hex({ message: 'Wrong hex code format' }),
+	slug: z
+		.string()
+		.min(4, { message: 'Slug must contain at least 4 characters.' })
+		.regex(
+			/^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+			'Invalid slug format. Slugs must contain only lowercase characters and hyphens, and cannot start or end with a hyphen.',
+		),
+	hexCode: z
+		.string()
+		.regex(
+			/^#[0-9A-Fa-f]{6}$/,
+			'Invalid hex format. Copy hex code from color select menu including # symbol',
+		),
 });
 
 export const createColorAction = async (
@@ -123,7 +134,12 @@ export const createCategoryAction = async (
 
 const productFormSchema = z.object({
 	name: z.string().min(3, { message: 'Product name must contain at leat 3 characters' }),
-	slug: z.string().min(3, { message: 'Product name must contain at leat 3 characters' }),
+	slug: z
+		.string()
+		.regex(
+			/^[a-z0-9]+(?:-[a-z0-9]+)*$/,
+			'Invalid slug format. Slugs must contain only lowercase characters and hyphens, and cannot start or end with a hyphen.',
+		),
 	description: z
 		.string()
 		.min(8, { message: 'Description must contain at leat 8 characters' }),
@@ -156,7 +172,7 @@ export const createProductAction = async (
 
 	if (!validationResult.success) {
 		const flatten = z.flattenError(validationResult.error);
-		
+
 		return {
 			errors: {
 				name: flatten.fieldErrors.name,
