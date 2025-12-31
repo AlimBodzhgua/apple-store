@@ -14,7 +14,7 @@ import { Label } from '@/components/ui/label';
 const getCategories = async (): Promise<Category[]> => {
 	const response = await fetch('http://localhost:3000/api/categories', {
 		method: 'GET',
-		cache: 'force-cache',
+		next: { tags: ['categories'] },
 	});
 
 	return response.json();

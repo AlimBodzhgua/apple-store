@@ -3,6 +3,7 @@
 import { z } from 'zod';
 import { prisma } from '@/shared/lib/prisma';
 import type { FormStateType } from '@/shared/types';
+import { revalidateTag } from 'next/cache';
 
 export type DashboardFormsStateErrors = {
 	name?: string[];
@@ -65,6 +66,8 @@ export const createColorAction = async (
 			},
 		});
 
+		revalidateTag('colors', { expire: 30 });
+
 		return {
 			success: true,
 			message: 'Color succesfully created',
@@ -115,6 +118,8 @@ export const createCategoryAction = async (
 				description: description as string,
 			},
 		});
+
+		revalidateTag('categories', { expire: 30 });
 
 		return {
 			success: true,

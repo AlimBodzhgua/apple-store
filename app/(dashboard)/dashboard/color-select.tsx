@@ -14,7 +14,7 @@ import type { Color } from '@/prisma/generated/prisma/client';
 const getColors = async (): Promise<Color[]> => {
 	const response = await fetch('http://localhost:3000/api/colors', {
 		method: 'GET',
-		cache: 'force-cache',
+		next: { tags: ['colors'] },
 	});
 	return response.json();
 };
