@@ -4,7 +4,7 @@ import { Container } from '@/components/shared';
 
 import { PageHeader } from '../page-header';
 import { DataTable } from '../data-table';
-import { CreateProductForm } from './create-product-form';
+import { CreateProductForm } from './_components/create-product-form';
 import { columns } from './columns';
 
 const getProducts = async (): Promise<Product[]> => {

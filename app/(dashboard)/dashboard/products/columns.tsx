@@ -13,7 +13,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { UpdateProductForm } from './update-product-form';
+import { UpdateProductForm } from './_components/update-product-form';
 
 const removeProduct = async (id: string): Promise<Product[]> => {
 	const response = await fetch(`http://localhost:3000/api/products/${id}`, {

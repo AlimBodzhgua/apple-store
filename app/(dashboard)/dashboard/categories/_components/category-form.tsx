@@ -1,15 +1,18 @@
 'use client';
 
 import { useActionState } from 'react';
-import { createCategoryAction, updateCategoryAction, type DashboardFormsStateType } from '@/app/actions/dashboard';
 import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { FormMode } from '@/shared/constants/form';
 import { cn } from '@/shared/lib/utils';
-import { SubmitButton } from '../submit-button';
+
+import type { DashboardFormsStateType } from '../../types';
+import { SubmitButton } from '../../submit-button';
+import { createCategoryAction, updateCategoryAction } from '../actions';
 
 type UpdateCategoryFormProps = {
-	type: 'update';
+	type: typeof FormMode.update;
 	id: string;
 	initialName: string;
 	initialDescription: string;
@@ -17,17 +20,16 @@ type UpdateCategoryFormProps = {
 }
 
 type CreateCategoryFormProps = {
-	type: 'create';
+	type: typeof FormMode.create;
 	className?: string;
 };
 
 type CategoryFormProps = CreateCategoryFormProps | UpdateCategoryFormProps;
 
-
 const matpToCategoryAction = {
 	create: createCategoryAction,
 	update: updateCategoryAction,
-}
+} as const;
 
 const initialState: DashboardFormsStateType = {
 	errors: undefined,

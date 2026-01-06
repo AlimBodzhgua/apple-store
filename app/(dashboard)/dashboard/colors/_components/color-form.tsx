@@ -1,20 +1,18 @@
 'use client';
 
 import { useActionState } from 'react';
-import { updateColorAction, createColorAction, type DashboardFormsStateType } from '@/app/actions/dashboard';
 import { SelectColorDropdown } from '@/components/shared';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
+import { FormMode } from '@/shared/constants/form';
 import { cn } from '@/shared/lib/utils';
-import { SubmitButton } from '../submit-button';
 
-const ColorFormTypes = {
-	update: 'udpdate',
-	create: 'create',
-} as const;
+import type { DashboardFormsStateType } from '../../types';
+import { SubmitButton } from '../../submit-button';
+import { createColorAction, updateColorAction } from '../actions';
 
 type UpdateColorFormProps = {
-	type: 'update';
+	type: typeof FormMode.update;
 	id: string;
 	initialName: string;
 	initialSlug: string;
@@ -23,8 +21,8 @@ type UpdateColorFormProps = {
 }
 
 type CreateColorFormProps = {
+	type: typeof FormMode.create;
 	className?: string;
-	type: 'create';
 };
 
 type ColorFormProps = CreateColorFormProps | UpdateColorFormProps;

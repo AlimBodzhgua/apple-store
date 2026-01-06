@@ -1,15 +1,18 @@
 'use client';
 
 import { ReactNode, useActionState } from 'react';
-import { createProductAction, updateProductAction, type DashboardFormsStateType } from '@/app/actions/dashboard';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
+import { FormMode } from '@/shared/constants/form';
 import { cn } from '@/shared/lib/utils';
-import { SubmitButton } from '../submit-button';
+
+import type { DashboardFormsStateType } from '../../types';
+import { SubmitButton } from '../../submit-button';
+import { createProductAction, updateProductAction } from '../actions';
 
 type UpdateProductFormProps = {
-	type: 'update';
+	type: typeof FormMode.update;
 	id: string;
 	initialName: string;
 	initialSlug: string;
@@ -20,27 +23,27 @@ type UpdateProductFormProps = {
 
 	additionalFormSelectors?: ReactNode;
 	className?: string;
-}
+};
 
 type CreateProductFormProps = {
-	type: 'create';
+	type: typeof FormMode.create;
 
 	className?: string;
 	additionalFormSelectors?: ReactNode;
-}
+};
 
 type ProductFormProps = CreateProductFormProps | UpdateProductFormProps;
+
+const mapToProductFormActions = {
+	update: updateProductAction,
+	create: createProductAction,
+} as const;
 
 const initialState: DashboardFormsStateType = {
 	errors: undefined,
 	success: false,
 	message: '',
 };
-
-const mapToProductFormActions = {
-	update: updateProductAction,
-	create: createProductAction,
-} as const;
 
 export function ProductForm(props: ProductFormProps) {
 	const {

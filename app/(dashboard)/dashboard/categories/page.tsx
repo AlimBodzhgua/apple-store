@@ -4,7 +4,7 @@ import type { Category } from '@/prisma/generated/prisma/client';
 
 import { PageHeader } from '../page-header';
 import { DataTable } from '../data-table';
-import { CreateCategoryForm } from './create-category-form';
+import { CreateCategoryForm } from './_components/create-category-form';
 import { columns } from './columns';
 
 const getCategories = async (): Promise<Category[]> => {

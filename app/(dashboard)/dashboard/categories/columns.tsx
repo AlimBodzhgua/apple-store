@@ -13,7 +13,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { UpdateCategoryForm } from './update-category-form';
+import { UpdateCategoryForm } from './_components/update-category-form';
 
 const removeCategory = async (id: string): Promise<Category[]> => {
 	const response = await fetch(`http://localhost:3000/api/categories/${id}`, {

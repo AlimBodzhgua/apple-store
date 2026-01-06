@@ -13,7 +13,7 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { UpdateColorForm } from './update-color-form';
+import { UpdateColorForm } from './_components/update-color-form';
 
 const removeColor = async (id: string): Promise<Color[]> => {
 	const response = await fetch(`http://localhost:3000/api/colors/${id}`, {

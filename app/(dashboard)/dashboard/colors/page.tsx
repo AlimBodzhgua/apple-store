@@ -1,9 +1,10 @@
 import { use } from 'react';
 import type { Color } from '@/prisma/generated/prisma/client';
 import { Container } from '@/components/shared';
+
 import { PageHeader } from '../page-header';
 import { DataTable } from '../data-table';
-import { CreateColorForm } from './create-color-form';
+import { CreateColorForm } from './_components/create-color-form';
 import { columns } from './columns';
 
 const getColors = async (): Promise<Color[]> => {

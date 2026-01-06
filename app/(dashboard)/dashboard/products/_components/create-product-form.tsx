@@ -12,5 +12,5 @@ export function CreateProductForm({ className }: CreateProductFormProps) {
 			className={className}
 			additionalFormSelectors={<ProductFormSelectors />}
 		/>
-	)
+	);
 }
