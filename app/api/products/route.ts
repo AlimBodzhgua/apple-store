@@ -6,7 +6,6 @@ export async function GET(req: NextRequest) {
 		const productId = req.nextUrl.searchParams.get('id');
 
 		if (productId) {
-			
 			const product = await prisma.product.findFirst({
 				where: {
 					id: productId,
@@ -23,7 +22,7 @@ export async function GET(req: NextRequest) {
 			return NextResponse.json(product);
 		}
 
-		const products = await prisma.category.findMany();
+		const products = await prisma.product.findMany();
 
 		return NextResponse.json(products);
 	} catch (error) {
@@ -32,7 +31,7 @@ export async function GET(req: NextRequest) {
 		return NextResponse.json({
 			status: 500,
 			errorMessage: 'Internal server error',
-		})
+		});
 	}
+}
 
-};

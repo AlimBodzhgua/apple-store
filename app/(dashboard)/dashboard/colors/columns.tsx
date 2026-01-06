@@ -1,7 +1,29 @@
 'use client';
 
-import { ColumnDef } from '@tanstack/react-table';
+import { useRouter } from 'next/navigation';
+import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
+import type { ColumnDef } from '@tanstack/react-table';
 import type { Color } from '@/prisma/generated/prisma/client';
+import { Button } from '@/components/ui/button';
+import {
+	Dialog,
+	DialogContent,
+	DialogDescription,
+	DialogHeader,
+	DialogTitle,
+	DialogTrigger,
+} from '@/components/ui/dialog';
+import { UpdateColorForm } from './update-color-form';
+
+const removeColor = async (id: string): Promise<Color[]> => {
+	const response = await fetch(`http://localhost:3000/api/colors/${id}`, {
+		method: 'DELETE',
+	});
+
+	if (!response.ok) throw new Error('Error fetching colors');
+
+	return response.json();
+}
 
 export const columns: ColumnDef<Color>[] = [
 	{
@@ -17,7 +39,79 @@ export const columns: ColumnDef<Color>[] = [
 		header: 'Slug',
 	},
 	{
-		accessorKey: 'hex code',
+		accessorKey: 'hexCode',
 		header: 'Hex Code',
+		cell: ({ row }) => {
+			const hexCode: string = row.getValue('hexCode');
+
+			return (
+				<div className='flex items-center text-right font-medium'>
+					<span
+						className='h-3.5 w-3.5 block rounded mr-3'
+						style={{ backgroundColor: hexCode }}
+					/>
+					{hexCode}
+				</div>
+			);
+		},
+	},
+	{
+		id: 'actions',
+		header: 'Actions',
+		enableHiding: false,
+		cell: ({ row }) => {
+			const colorId: string = row.getValue('id');
+
+			const name: string = row.getValue('name');
+			const slug: string = row.getValue('slug');
+			const hexCode: string = row.getValue('hexCode');
+
+			const router = useRouter()
+
+			const onRemove = async () => {
+				await removeColor(colorId);
+				router.refresh();
+			};
+
+			return (
+				<div className='flex gap-2'>
+					<Button
+						size='xs'
+						variant='outline'
+						onClick={onRemove}
+						className='hover:text-red-500 hover:border-red-500'
+					>
+						<TrashIcon />
+					</Button>
+
+					<Dialog>
+							<DialogTrigger asChild>
+								<Button
+									size='xs'
+									variant='outline'
+									className='hover:text-blue-500 hover:border-blue-500'
+								>
+									<SquarePenIcon />
+								</Button>
+							</DialogTrigger>
+							<DialogContent className='sm:max-w-[425px]'>
+								<DialogHeader>
+									<DialogTitle>Edit color</DialogTitle>
+									<DialogDescription>
+										Make changes to selected color here. Click save when
+										you&apos;re done.
+									</DialogDescription>
+								</DialogHeader>
+								<UpdateColorForm
+									id={colorId}
+									initialHexCode={hexCode}
+									initialName={name}
+									initialSlug={slug}
+								/>
+							</DialogContent>
+					</Dialog>
+				</div>
+			);
+		},
 	},
 ];
