@@ -82,7 +82,7 @@ model Verification {
 
 
 model Product {
-	id 				String 	@id @default(cuid())
+	id 				String 	@id @default(nanoid(12))
 	name 			String	@unique
 	slug			String 	@unique
 
@@ -100,7 +100,7 @@ model Product {
 }
 
 model Category {
-	id		String 	@id @default(cuid())
+	id		String 	@id @default(nanoid(12))
 	name 	String 	@unique
 	description String?
 
@@ -109,7 +109,7 @@ model Category {
 
 
 model Color {
-	id		String	@id @default(cuid())
+	id		String	@id @default(nanoid(12))
 	name	String 	@unique
 	slug 	String 	@unique
 	hexCode	String

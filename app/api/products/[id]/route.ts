@@ -1,20 +1,26 @@
+import { revalidatePath } from 'next/cache';
 import { type NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/shared/lib/prisma';
-import { revalidatePath } from 'next/cache';
 
 export async function DELETE(req: NextRequest, context: RouteContext<'/api/products/[id]'>) {
 	try {
 		const params = await context.params;
 		const productId = params.id;
 
-		if (!productId) {
+		const product = await prisma.product.findFirst({
+			where: {
+				id: productId,
+			}
+		})
+
+		if (!product) {
 			return NextResponse.json({
 				status: 404,
 				errorMessage: 'Category not found',
 			});
 		}
 
-		const color = await prisma.product.delete({
+		const deletedProduct = await prisma.product.delete({
 			where: {
 				id: productId,
 			},
@@ -22,7 +28,7 @@ export async function DELETE(req: NextRequest, context: RouteContext<'/api/produ
 
 		revalidatePath('/dashboard/products');
 
-		return NextResponse.json(color);
+		return NextResponse.json(deletedProduct);
 	} catch (error) {
 		console.error('Error deleting category', error);
 
