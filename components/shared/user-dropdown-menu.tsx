@@ -1,10 +1,7 @@
 import type { FC } from 'react';
-import {
-	LogOut as LogOutIcon,
-	User as UserIcon,
-} from 'lucide-react';
+import { LogOut as LogOutIcon, User as UserIcon } from 'lucide-react';
 import { signOutUserAction } from '@/app/actions/auth';
-import { Button, buttonVariants } from '@/components/ui/button';
+import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuContent,
@@ -13,8 +10,8 @@ import {
 } from '@/components/ui/dropdown-menu';
 
 type UserDropdownMenuType = {
-	variant?: "outline" | "secondary" | "ghost" | "destructive";
-}
+	variant?: 'outline' | 'secondary' | 'ghost' | 'destructive';
+};
 
 export const UserDropdownMenu: FC<UserDropdownMenuType> = (props) => {
 	const { variant } = props;
