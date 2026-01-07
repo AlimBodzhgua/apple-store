@@ -149,6 +149,8 @@ export const updateProductAction = async (
 			},
 		});
 
+		updateTag('/dashboard/products');
+
 		return {
 			success: true,
 			message: 'Category succesfully created',

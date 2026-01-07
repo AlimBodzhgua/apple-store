@@ -121,6 +121,8 @@ export const updateColorAction = async (
 			},
 		});
 
+		updateTag('/dashboard/colors');
+
 		return {
 			success: true,
 			message: 'Color succesfully created',

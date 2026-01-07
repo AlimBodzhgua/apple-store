@@ -105,6 +105,8 @@ export const updateCategoryAction = async (
 			},
 		});
 
+		updateTag('/dashboard/categories');
+
 		return {
 			success: true,
 			message: 'Category succesfully created',
