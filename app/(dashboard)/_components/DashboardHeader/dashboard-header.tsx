@@ -1,7 +1,7 @@
 import type { FC } from 'react';
-import { cn } from '@/shared/lib/utils';
 import { Container } from '@/components/shared';
 import { UserDropdownMenu } from '@/components/shared/user-dropdown-menu';
+import { cn } from '@/shared/lib/utils';
 
 type DashboardHeaderProps = {
 	className?: string;
@@ -13,7 +13,7 @@ export const DashboardHeader: FC<DashboardHeaderProps> = (props) => {
 	return (
 		<header className={cn('bg-gray-400 w-full min-h-15', className)}>
 			<Container className='flex justify-end items-center py-1 h-full'>
-				<UserDropdownMenu variant='outline'/>
+				<UserDropdownMenu variant='outline' />
 			</Container>
 		</header>
 	);

@@ -1,8 +1,8 @@
 'use server';
 
 import type { FC } from 'react';
-import { headers } from 'next/headers';
 import { ShoppingCart as ShoppingCartIcon } from 'lucide-react';
+import { headers } from 'next/headers';
 import Image from 'next/image';
 import Link from 'next/link';
 import { Container } from '@/components/shared/container';
@@ -32,7 +32,8 @@ export const Header: FC<HeaderProps> = async ({ className }) => {
 						height={30}
 					/>
 					<h1 className='text-2xl font-extrabold'>
-						Apple<span className='text-gray-400'>Store</span>
+						Apple
+						<span className='text-gray-400'>Store</span>
 					</h1>
 				</Link>
 				<Input placeholder='Пойск товаров' className='w-[60%]' />

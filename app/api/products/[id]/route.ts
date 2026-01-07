@@ -10,8 +10,8 @@ export async function DELETE(req: NextRequest, context: RouteContext<'/api/produ
 		const product = await prisma.product.findFirst({
 			where: {
 				id: productId,
-			}
-		})
+			},
+		});
 
 		if (!product) {
 			return NextResponse.json({

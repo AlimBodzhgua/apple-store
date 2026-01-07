@@ -6,7 +6,7 @@ type UpdateProductFormProps = {
 	initialSlug: string;
 	initialDescription: string;
 	initialPrice: number;
-}
+};
 
 export function UpdateProductForm(props: UpdateProductFormProps) {
 	const {
@@ -29,5 +29,5 @@ export function UpdateProductForm(props: UpdateProductFormProps) {
 			initialColorId={'456'}
 			additionalFormSelectors={<></>}
 		/>
-	)
+	);
 }

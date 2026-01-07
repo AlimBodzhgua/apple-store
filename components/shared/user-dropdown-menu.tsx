@@ -31,7 +31,8 @@ export const UserDropdownMenu: FC<UserDropdownMenuType> = (props) => {
 						className='w-full flex gap-2 mb-0.5'
 						size='sm'
 					>
-						Profile <UserIcon />
+						Profile 
+						<UserIcon />
 					</Button>
 					<Button
 						variant={variant}
@@ -39,7 +40,8 @@ export const UserDropdownMenu: FC<UserDropdownMenuType> = (props) => {
 						className='w-full flex gap-2'
 						size='sm'
 					>
-						Logout <LogOutIcon />
+						Logout 
+						<LogOutIcon />
 					</Button>
 				</DropdownMenuGroup>
 			</DropdownMenuContent>

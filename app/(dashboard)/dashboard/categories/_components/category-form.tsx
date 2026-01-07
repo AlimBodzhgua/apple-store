@@ -1,11 +1,11 @@
 'use client';
 
 import { useActionState } from 'react';
-import { Textarea } from '@/components/ui/textarea';
 import { Input } from '@/components/ui/input';
+import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
-import { FormMode } from '@/shared/constants/form';
 import { cn } from '@/shared/lib/utils';
+import type { FormMode } from '@/shared/constants/form';
 
 import type { DashboardFormsStateType } from '../../types';
 import { SubmitButton } from '../../submit-button';
@@ -17,7 +17,7 @@ type UpdateCategoryFormProps = {
 	initialName: string;
 	initialDescription: string;
 	className?: string;
-}
+};
 
 type CreateCategoryFormProps = {
 	type: typeof FormMode.create;

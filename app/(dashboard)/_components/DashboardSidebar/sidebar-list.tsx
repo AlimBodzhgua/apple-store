@@ -1,8 +1,8 @@
 import type { ReactNode } from 'react';
 import {
-	Tag as TagIcon,
 	Box as BoxIcon,
 	Palette as PalleteIcon,
+	Tag as TagIcon,
 } from 'lucide-react';
 
 type SidebarItemType = {

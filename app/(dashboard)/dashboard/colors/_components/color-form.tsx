@@ -4,7 +4,7 @@ import { useActionState } from 'react';
 import { SelectColorDropdown } from '@/components/shared';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import { FormMode } from '@/shared/constants/form';
+import type { FormMode } from '@/shared/constants/form';
 import { cn } from '@/shared/lib/utils';
 
 import type { DashboardFormsStateType } from '../../types';
@@ -18,7 +18,7 @@ type UpdateColorFormProps = {
 	initialSlug: string;
 	initialHexCode: string;
 	className?: string;
-}
+};
 
 type CreateColorFormProps = {
 	type: typeof FormMode.create;
@@ -112,7 +112,7 @@ export function ColorForm(props: ColorFormProps) {
 							</div>
 						)}
 					</div>
-					<SelectColorDropdown className={state.errors?.hexCode && 'mb-8'}/>
+					<SelectColorDropdown className={state.errors?.hexCode && 'mb-8'} />
 				</div>
 			</div>
 

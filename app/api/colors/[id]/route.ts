@@ -1,5 +1,5 @@
-import { type NextRequest, NextResponse } from 'next/server';
 import { revalidatePath } from 'next/cache';
+import { type NextRequest, NextResponse } from 'next/server';
 import { prisma } from '@/shared/lib/prisma';
 
 export async function DELETE(req: NextRequest, context: RouteContext<'/api/colors/[id]'>) {
@@ -10,8 +10,8 @@ export async function DELETE(req: NextRequest, context: RouteContext<'/api/color
 		const color = await prisma.color.findFirst({
 			where: {
 				id: colorId,
-			}
-		})
+			},
+		});
 
 		if (!color) {
 			return NextResponse.json({

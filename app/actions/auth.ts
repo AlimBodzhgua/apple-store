@@ -3,8 +3,8 @@
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import z from 'zod';
-import { auth } from '@/shared/lib/auth';
 import type { FormStateType } from '@/shared/types';
+import { auth } from '@/shared/lib/auth';
 
 export type AuthFormsStateErrors = {
 	email?: string[];
@@ -54,11 +54,11 @@ export const signUpUserAction = async (
 
 	} catch (error) {
 		let errorMsg = 'An error occurred during sign up, reload the page or try it later';
-		
+
 		if (error instanceof Error) {
 			errorMsg = error.message;
 		}
-		
+
 		return { errors: { general: errorMsg } };
 	}
 	
@@ -107,12 +107,12 @@ export const signInUserAction = async (
 
 		return { errors: { general: errorMsg } };
 	}
-	
+
 	redirect('/');
 };
 
 export const signOutUserAction = async () => {
 	await auth.api.signOut({
 		headers: await headers(),
-	})
-}
+	});
+};

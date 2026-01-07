@@ -23,7 +23,7 @@ const removeColor = async (id: string): Promise<Color[]> => {
 	if (!response.ok) throw new Error('Error fetching colors');
 
 	return response.json();
-}
+};
 
 export const columns: ColumnDef<Color>[] = [
 	{
@@ -66,7 +66,7 @@ export const columns: ColumnDef<Color>[] = [
 			const slug: string = row.getValue('slug');
 			const hexCode: string = row.getValue('hexCode');
 
-			const router = useRouter()
+			const router = useRouter();
 
 			const onRemove = async () => {
 				await removeColor(colorId);

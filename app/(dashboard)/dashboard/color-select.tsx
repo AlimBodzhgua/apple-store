@@ -20,11 +20,13 @@ const getColors = async (): Promise<Color[]> => {
 };
 
 export function ColorSelect() {
-	const colors = use(getColors())
+	const colors = use(getColors());
 
 	return (
 		<div className='w-full'>
-			<Label htmlFor='color' className='pl-1 mb-1'>Color</Label>
+			<Label htmlFor='color' className='pl-1 mb-1'>
+				Color
+			</Label>
 			<Select name='color'>
 				<SelectTrigger id='color' className='w-full'>
 					<SelectValue placeholder='Select color' />
@@ -33,7 +35,11 @@ export function ColorSelect() {
 					<SelectGroup>
 						<SelectLabel>Colors</SelectLabel>
 						{colors.map((color) => (
-							<SelectItem value={color.id} key={color.hexCode} className='flex items-center'>
+							<SelectItem
+								value={color.id}
+								key={color.hexCode}
+								className='flex items-center'
+							>
 								<span
 									className='block w-4 h-4 rounded'
 									style={{ backgroundColor: color.hexCode }}

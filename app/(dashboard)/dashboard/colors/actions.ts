@@ -60,9 +60,9 @@ export const createColorAction = async (
 			success: true,
 			message: 'Color succesfully created',
 		};
+
 	} catch (error) {
-		let errorMsg =
-			'An error occurred during create color, reload the page or try it later';
+		let errorMsg = 'An error occurred during create color, reload the page or try it later';
 
 		if (error instanceof Error) {
 			errorMsg = error.message;
@@ -125,9 +125,9 @@ export const updateColorAction = async (
 			success: true,
 			message: 'Color succesfully created',
 		};
+
 	} catch (error) {
-		let errorMsg =
-			'An error occurred during create color, reload the page or try it later';
+		let errorMsg = 'An error occurred during create color, reload the page or try it later';
 
 		if (error instanceof Error) {
 			errorMsg = error.message;

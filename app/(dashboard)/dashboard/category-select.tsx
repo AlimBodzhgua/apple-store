@@ -1,4 +1,5 @@
 import { use } from 'react';
+import type { Category } from '@/prisma/generated/prisma/client';
 import {
 	Select,
 	SelectContent,
@@ -8,7 +9,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import type { Category } from '@/prisma/generated/prisma/client';
 import { Label } from '@/components/ui/label';
 
 const getCategories = async (): Promise<Category[]> => {

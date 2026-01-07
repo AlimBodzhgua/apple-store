@@ -1,5 +1,5 @@
+import type { FC, ReactNode } from 'react';
 import { cn } from '@/shared/lib/utils';
-import { FC, ReactNode } from 'react';
 
 type ContainerProps = {
 	children: ReactNode;
