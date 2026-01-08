@@ -1,6 +1,7 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
+import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
@@ -16,11 +17,13 @@ type UpdateCategoryFormProps = {
 	id: string;
 	initialName: string;
 	initialDescription: string;
+	onSuccess?: () => void;
 	className?: string;
 };
 
 type CreateCategoryFormProps = {
 	type: typeof FormMode.create;
+	onSuccess?: () => void;
 	className?: string;
 };
 
@@ -38,8 +41,20 @@ const initialState: DashboardFormsStateType = {
 };
 
 export function CategoryForm(props: CategoryFormProps) {
-	const { type, className } = props;
+	const {
+		type,
+		onSuccess,
+		className,
+	} = props;
 	const [state, formAction] = useActionState(matpToCategoryAction[type], initialState);
+
+	useEffect(() => {
+		if (state.success && onSuccess) {
+			onSuccess();
+			
+			toast.success(state.message, { position: 'top-center' });
+		}
+	}, [onSuccess, state]);
 
 	return (
 		<form className={cn(className)} action={formAction} autoFocus={false}>

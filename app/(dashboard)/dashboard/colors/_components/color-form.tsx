@@ -1,6 +1,7 @@
 'use client';
 
-import { useActionState } from 'react';
+import { useActionState, useEffect } from 'react';
+import { toast } from 'sonner';
 import { SelectColorDropdown } from '@/components/shared';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
@@ -17,11 +18,13 @@ type UpdateColorFormProps = {
 	initialName: string;
 	initialSlug: string;
 	initialHexCode: string;
+	onSuccess?: () => void;
 	className?: string;
 };
 
 type CreateColorFormProps = {
 	type: typeof FormMode.create;
+	onSuccess?: () => void;
 	className?: string;
 };
 
@@ -41,9 +44,21 @@ const mapToColorFormActions = {
 export function ColorForm(props: ColorFormProps) {
 	const {
 		type,
+		onSuccess,
 		className,
 	} = props;
 	const [state, formAction] = useActionState(mapToColorFormActions[type], initialState);
+
+	useEffect(() => {
+		if (state.success && onSuccess) {
+			onSuccess();
+			
+			toast.success(state.message, {
+				position: 'top-center',
+			});
+		}
+	}, [state, onSuccess]);
+
 
 	return (
 		<form action={formAction} className={cn(className)}>

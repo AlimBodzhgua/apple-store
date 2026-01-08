@@ -99,7 +99,6 @@ export const updateProductAction = async (
 	const slug = data.get('slug');
 	const description = data.get('description');
 	const price = data.get('price');
-
 	
 	try {
 		const product = await prisma.product.findFirst({
@@ -111,7 +110,7 @@ export const updateProductAction = async (
 		if (!product) {
 			return {
 				success: false,
-				message: 'Category not found',
+				message: 'Product not found',
 			};
 		}
 		
@@ -153,7 +152,7 @@ export const updateProductAction = async (
 
 		return {
 			success: true,
-			message: 'Category succesfully created',
+			message: 'Product succesfully updated',
 		};
 	} catch (error) {
 		let errorMsg =

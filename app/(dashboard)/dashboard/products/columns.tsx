@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { Trash as TrashIcon, SquarePen as SquarePenIcon } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -99,12 +100,19 @@ export const columns: ColumnDef<Product>[] = [
 			const slug: string = row.getValue('slug');
 			const price: number = row.getValue('price');
 			const description: string = row.getValue('description');
+
+			const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+			
 			const router = useRouter();
 
 			const onRemove = async () => {
 				await removeProduct(productId);
 				router.refresh();
 			};
+
+			const toggleModalOpened = useCallback(() => {
+				setIsModalOpened((prev) => !prev)
+			}, []);
 
 			return (
 				<div className='flex gap-2'>
@@ -117,7 +125,7 @@ export const columns: ColumnDef<Product>[] = [
 						<TrashIcon />
 					</Button>
 
-					<Dialog>
+					<Dialog open={isModalOpened} onOpenChange={setIsModalOpened}>
 						<DialogTrigger asChild>
 							<Button
 								size='xs'
@@ -141,6 +149,7 @@ export const columns: ColumnDef<Product>[] = [
 								initialSlug={slug}
 								initialDescription={description}
 								initialPrice={price}
+								onSuccess={toggleModalOpened}
 							/>
 						</DialogContent>
 					</Dialog>

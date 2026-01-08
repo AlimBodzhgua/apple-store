@@ -4,6 +4,7 @@ type UpdateCategoryFormProps = {
 	id: string;
 	initialName: string;
 	initialDescription: string;
+	onSuccess?: () => void;
 	className?: string;
 };
 
@@ -12,6 +13,7 @@ export function UpdateCategoryForm(props: UpdateCategoryFormProps) {
 		id,
 		initialName,
 		initialDescription,
+		onSuccess,
 	} = props;
 
 	return <CategoryForm
@@ -19,5 +21,6 @@ export function UpdateCategoryForm(props: UpdateCategoryFormProps) {
 		id={id}
 		initialName={initialName}
 		initialDescription={initialDescription}
+		onSuccess={onSuccess}
 	/>;
 }

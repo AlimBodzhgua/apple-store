@@ -6,6 +6,9 @@ type UpdateProductFormProps = {
 	initialSlug: string;
 	initialDescription: string;
 	initialPrice: number;
+
+	onSuccess?: () => void;
+	className?: string;
 };
 
 export function UpdateProductForm(props: UpdateProductFormProps) {
@@ -15,6 +18,8 @@ export function UpdateProductForm(props: UpdateProductFormProps) {
 		initialSlug,
 		initialDescription,
 		initialPrice,
+		onSuccess,
+		className,
 	} = props;
 
 	return (
@@ -28,6 +33,8 @@ export function UpdateProductForm(props: UpdateProductFormProps) {
 			initialCategoryId={'123'}
 			initialColorId={'456'}
 			additionalFormSelectors={<></>}
+			onSuccess={onSuccess}
+			className={className}
 		/>
 	);
-}
+};

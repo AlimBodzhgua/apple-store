@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
@@ -47,7 +48,13 @@ export const columns: ColumnDef<Category>[] = [
 			const name: string = row.getValue('name');
 			const description: string = row.getValue('description');
 
+			const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+
 			const router = useRouter();
+
+			const toggleModalOpened = useCallback(() => {
+				setIsModalOpened((prev) => !prev);
+			}, []);
 
 			const onRemove = async () => {
 				await removeCategory(categoryId);
@@ -65,7 +72,7 @@ export const columns: ColumnDef<Category>[] = [
 						<TrashIcon />
 					</Button>
 
-					<Dialog>
+					<Dialog open={isModalOpened} onOpenChange={setIsModalOpened}>
 							<DialogTrigger asChild>
 								<Button
 									size='xs'
@@ -87,6 +94,7 @@ export const columns: ColumnDef<Category>[] = [
 									id={categoryId}
 									initialName={name}
 									initialDescription={description}
+									onSuccess={toggleModalOpened}
 								/>
 							</DialogContent>
 					</Dialog>

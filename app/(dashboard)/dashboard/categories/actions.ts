@@ -109,11 +109,10 @@ export const updateCategoryAction = async (
 
 		return {
 			success: true,
-			message: 'Category succesfully created',
+			message: 'Category succesfully updated',
 		};
 	} catch (error) {
-		let errorMsg =
-			'An error occurred during create category, reload the page or try it later';
+		let errorMsg = 'An error occurred during create category, reload the page or try it later';
 
 		if (error instanceof Error) {
 			errorMsg = error.message;

@@ -1,5 +1,6 @@
 'use client';
 
+import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
 import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -61,12 +62,17 @@ export const columns: ColumnDef<Color>[] = [
 		enableHiding: false,
 		cell: ({ row }) => {
 			const colorId: string = row.getValue('id');
-
 			const name: string = row.getValue('name');
 			const slug: string = row.getValue('slug');
 			const hexCode: string = row.getValue('hexCode');
 
 			const router = useRouter();
+
+			const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
+
+			const toggleModalOpened = useCallback(() => {
+				setIsModalOpened((prev) => !prev);
+			}, []);
 
 			const onRemove = async () => {
 				await removeColor(colorId);
@@ -84,12 +90,13 @@ export const columns: ColumnDef<Color>[] = [
 						<TrashIcon />
 					</Button>
 
-					<Dialog>
+					<Dialog open={isModalOpened} onOpenChange={setIsModalOpened}>
 							<DialogTrigger asChild>
 								<Button
 									size='xs'
 									variant='outline'
 									className='hover:text-blue-500 hover:border-blue-500'
+									onClick={toggleModalOpened}
 								>
 									<SquarePenIcon />
 								</Button>
@@ -107,6 +114,7 @@ export const columns: ColumnDef<Color>[] = [
 									initialHexCode={hexCode}
 									initialName={name}
 									initialSlug={slug}
+									onSuccess={toggleModalOpened}
 								/>
 							</DialogContent>
 					</Dialog>

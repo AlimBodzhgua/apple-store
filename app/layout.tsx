@@ -1,4 +1,5 @@
 import { Nunito } from 'next/font/google';
+import { Toaster } from '@/components/ui/sonner';
 import './globals.css';
 
 const nunito = Nunito({
@@ -17,6 +18,7 @@ export default function RootLayout({
 		<html lang='en'>
 			<body className={nunito.className}>
 				{children}
+				<Toaster />
 			</body>
 		</html>
 	);

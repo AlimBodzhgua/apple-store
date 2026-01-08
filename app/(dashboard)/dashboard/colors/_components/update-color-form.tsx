@@ -5,11 +5,18 @@ type UpdateColorFormProps = {
 	initialName: string;
 	initialSlug: string;
 	initialHexCode: string;
+	onSuccess?: () => void;
 	className?: string;
 };
 
 export function UpdateColorForm(props: UpdateColorFormProps) {
-	const { id, initialName, initialHexCode, initialSlug } = props;
+	const {
+		id,
+		initialName,
+		initialHexCode,
+		initialSlug,
+		onSuccess,
+	} = props;
 
 	return (
 		<ColorForm
@@ -18,6 +25,7 @@ export function UpdateColorForm(props: UpdateColorFormProps) {
 			initialHexCode={initialHexCode}
 			initialName={initialName}
 			initialSlug={initialSlug}
+			onSuccess={onSuccess}
 		/>
 	);
 }

@@ -1,6 +1,7 @@
 'use client';
 
-import { ReactNode, useActionState } from 'react';
+import { type ReactNode, useActionState, useEffect } from 'react';
+import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
@@ -21,6 +22,7 @@ type UpdateProductFormProps = {
 	initialColorId: string;
 	initialCategoryId: string;
 
+	onSuccess?: () => void;
 	additionalFormSelectors?: ReactNode;
 	className?: string;
 };
@@ -28,6 +30,7 @@ type UpdateProductFormProps = {
 type CreateProductFormProps = {
 	type: typeof FormMode.create;
 
+	onSuccess?: () => void;
 	className?: string;
 	additionalFormSelectors?: ReactNode;
 };
@@ -48,10 +51,19 @@ const initialState: DashboardFormsStateType = {
 export function ProductForm(props: ProductFormProps) {
 	const {
 		type,
+		onSuccess,
 		additionalFormSelectors,
 		className,
 	} = props;
 	const [state, formAction] = useActionState(mapToProductFormActions[type], initialState);
+
+	useEffect(() => {
+		if (state.success && onSuccess) {
+			onSuccess();
+			
+			toast.success(state.message, { position: 'top-center' });
+		}
+	}, [onSuccess, state]);
 
 	return (
 		<form action={formAction} className={cn(className)}>

@@ -1,9 +1,10 @@
 import { CategoryForm } from './category-form';
 
 type CreateCategoryFormProps = {
+	onSuccess?: () => void;
 	className?: string;
 };
 
-export function CreateCategoryForm({ className }: CreateCategoryFormProps) {
-	return <CategoryForm type='create' className={className} />;
+export function CreateCategoryForm({ className, onSuccess }: CreateCategoryFormProps) {
+	return <CategoryForm type='create' onSuccess={onSuccess} className={className} />;
 }

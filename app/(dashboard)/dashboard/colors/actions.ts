@@ -125,7 +125,7 @@ export const updateColorAction = async (
 
 		return {
 			success: true,
-			message: 'Color succesfully created',
+			message: 'Color succesfully updated',
 		};
 
 	} catch (error) {
