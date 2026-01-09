@@ -18,6 +18,10 @@ export default antfu({
 		'style/indent-binary-ops': ['off', 'tab'],
 
 		'node/prefer-global/process': 'off',
+
+		'perfectionist/sort-named-imports': ['warn', {
+			'type': 'alphabetical', 
+		}],
 	},
 	stylistic: {
 		semi: true,
