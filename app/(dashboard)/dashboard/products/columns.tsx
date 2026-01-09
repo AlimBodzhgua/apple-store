@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { Trash as TrashIcon, SquarePen as SquarePenIcon } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
@@ -15,6 +16,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { UpdateProductForm } from './_components/update-product-form';
+import { DeleteConfirmAlert } from '../delete-confirm-alert';
 
 const removeProduct = async (id: string): Promise<Product[]> => {
 	const response = await fetch(`http://localhost:3000/api/products/${id}`, {
@@ -106,8 +108,17 @@ export const columns: ColumnDef<Product>[] = [
 			const router = useRouter();
 
 			const onRemove = async () => {
-				await removeProduct(productId);
-				router.refresh();
+				try {
+					await removeProduct(productId);
+					router.refresh();
+					toast.success('Category succesfully deleted');
+				} catch (error) {
+					toast.error('Error deleteing color', {
+						position: 'top-center',
+						description:
+							'Something went wrong trying to delete the color, reload the page or try againt later',
+					});
+				}
 			};
 
 			const toggleModalOpened = useCallback(() => {
@@ -116,14 +127,19 @@ export const columns: ColumnDef<Product>[] = [
 
 			return (
 				<div className='flex gap-2'>
-					<Button
-						size='xs'
-						variant='outline'
-						onClick={onRemove}
-						className='hover:text-red-500 hover:border-red-500'
+					<DeleteConfirmAlert
+						title='Are you sure you want to delete this product?'
+						description='This action cannot be undone and will permanently delete product data.'
+						onDelete={onRemove}
 					>
-						<TrashIcon />
-					</Button>
+						<Button
+							size='xs'
+							variant='outline'
+							className='hover:text-red-500 hover:border-red-500'
+						>
+							<TrashIcon />
+						</Button>
+					</DeleteConfirmAlert>
 
 					<Dialog open={isModalOpened} onOpenChange={setIsModalOpened}>
 						<DialogTrigger asChild>

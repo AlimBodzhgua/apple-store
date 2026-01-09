@@ -2,6 +2,7 @@
 
 import { useCallback, useState } from 'react';
 import { useRouter } from 'next/navigation';
+import { toast } from 'sonner';
 import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { Color } from '@/prisma/generated/prisma/client';
@@ -15,6 +16,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { UpdateColorForm } from './_components/update-color-form';
+import { DeleteConfirmAlert } from '../delete-confirm-alert';
 
 const removeColor = async (id: string): Promise<Color[]> => {
 	const response = await fetch(`http://localhost:3000/api/colors/${id}`, {
@@ -75,48 +77,61 @@ export const columns: ColumnDef<Color>[] = [
 			}, []);
 
 			const onRemove = async () => {
-				await removeColor(colorId);
-				router.refresh();
+				try {
+					await removeColor(colorId);
+					router.refresh();
+					toast.success('Color succesfully deleted', { position: 'top-center' });
+				} catch (error) {
+					toast.error('Error deleteing color', {
+						position: 'top-center',
+						description:
+							'Something went wrong trying to delete the color, reload the page or try againt later',
+					});
+				}
 			};
 
 			return (
 				<div className='flex gap-2'>
-					<Button
-						size='xs'
-						variant='outline'
-						onClick={onRemove}
-						className='hover:text-red-500 hover:border-red-500'
+					<DeleteConfirmAlert
+						title='Are you sure you want to delete this color?'
+						description='This action cannot be undone and will permanently delete color data.'
+						onDelete={onRemove}
 					>
-						<TrashIcon />
-					</Button>
+						<Button
+							size='xs'
+							variant='outline'
+							className='hover:text-red-500 hover:border-red-500'
+						>
+							<TrashIcon />
+						</Button>
+					</DeleteConfirmAlert>
 
 					<Dialog open={isModalOpened} onOpenChange={setIsModalOpened}>
-							<DialogTrigger asChild>
-								<Button
-									size='xs'
-									variant='outline'
-									className='hover:text-blue-500 hover:border-blue-500'
-									onClick={toggleModalOpened}
-								>
-									<SquarePenIcon />
-								</Button>
-							</DialogTrigger>
-							<DialogContent className='sm:max-w-[425px]'>
-								<DialogHeader>
-									<DialogTitle>Edit color</DialogTitle>
-									<DialogDescription>
-										Make changes to selected color here. Click save when
-										you&apos;re done.
-									</DialogDescription>
-								</DialogHeader>
-								<UpdateColorForm
-									id={colorId}
-									initialHexCode={hexCode}
-									initialName={name}
-									initialSlug={slug}
-									onSuccess={toggleModalOpened}
-								/>
-							</DialogContent>
+						<DialogTrigger asChild>
+							<Button
+								size='xs'
+								variant='outline'
+								className='hover:text-blue-500 hover:border-blue-500'
+							>
+								<SquarePenIcon />
+							</Button>
+						</DialogTrigger>
+						<DialogContent className='sm:max-w-[425px]'>
+							<DialogHeader>
+								<DialogTitle>Edit color</DialogTitle>
+								<DialogDescription>
+									Make changes to selected color here. Click save when
+									you&apos;re done.
+								</DialogDescription>
+							</DialogHeader>
+							<UpdateColorForm
+								id={colorId}
+								initialHexCode={hexCode}
+								initialName={name}
+								initialSlug={slug}
+								onSuccess={toggleModalOpened}
+							/>
+						</DialogContent>
 					</Dialog>
 				</div>
 			);

@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
 import { useRouter } from 'next/navigation';
 import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
 import { ColumnDef } from '@tanstack/react-table';
@@ -15,6 +16,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 import { UpdateCategoryForm } from './_components/update-category-form';
+import { DeleteConfirmAlert } from '../delete-confirm-alert';
 
 const removeCategory = async (id: string): Promise<Category[]> => {
 	const response = await fetch(`http://localhost:3000/api/categories/${id}`, {
@@ -57,46 +59,61 @@ export const columns: ColumnDef<Category>[] = [
 			}, []);
 
 			const onRemove = async () => {
-				await removeCategory(categoryId);
-				router.refresh();
+				try {
+					await removeCategory(categoryId);
+					router.refresh();
+					toast.success('Category succesfully deleted');
+				} catch (error) {
+					toast.error('Error deleteing color', {
+						position: 'top-center',
+						description:
+							'Something went wrong trying to delete the color, reload the page or try againt later',
+					});
+				}
 			};
 
 			return (
 				<div className='flex gap-2'>
-					<Button
-						size='xs'
-						variant='outline'
-						onClick={onRemove}
-						className='hover:text-red-500 hover:border-red-500'
+					<DeleteConfirmAlert
+						title='Are you sure you want to delete this category?'
+						description='This action cannot be undone and will permanently delete category data.'
+						onDelete={onRemove}
 					>
-						<TrashIcon />
-					</Button>
+						<Button
+							size='xs'
+							variant='outline'
+							//onClick={onRemove}
+							className='hover:text-red-500 hover:border-red-500'
+						>
+							<TrashIcon />
+						</Button>
+					</DeleteConfirmAlert>
 
 					<Dialog open={isModalOpened} onOpenChange={setIsModalOpened}>
-							<DialogTrigger asChild>
-								<Button
-									size='xs'
-									variant='outline'
-									className='hover:text-blue-500 hover:border-blue-500'
-								>
-									<SquarePenIcon />
-								</Button>
-							</DialogTrigger>
-							<DialogContent className='sm:max-w-[425px]'>
-								<DialogHeader>
-									<DialogTitle>Edit category</DialogTitle>
-									<DialogDescription>
-										Make changes to selected category here. Click save when
-										you&apos;re done.
-									</DialogDescription>
-								</DialogHeader>
-								<UpdateCategoryForm
-									id={categoryId}
-									initialName={name}
-									initialDescription={description}
-									onSuccess={toggleModalOpened}
-								/>
-							</DialogContent>
+						<DialogTrigger asChild>
+							<Button
+								size='xs'
+								variant='outline'
+								className='hover:text-blue-500 hover:border-blue-500'
+							>
+								<SquarePenIcon />
+							</Button>
+						</DialogTrigger>
+						<DialogContent className='sm:max-w-[425px]'>
+							<DialogHeader>
+								<DialogTitle>Edit category</DialogTitle>
+								<DialogDescription>
+									Make changes to selected category here. Click save when
+									you&apos;re done.
+								</DialogDescription>
+							</DialogHeader>
+							<UpdateCategoryForm
+								id={categoryId}
+								initialName={name}
+								initialDescription={description}
+								onSuccess={toggleModalOpened}
+							/>
+						</DialogContent>
 					</Dialog>
 				</div>
 			);
