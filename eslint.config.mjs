@@ -9,14 +9,15 @@ export default antfu({
 	rules: {
 		'antfu/top-level-function': 'off',
 		'ts/consistent-type-definitions': 'off',
-		'style/arrow-parens': ['error', 'always'],
-
+		
 		'style/no-tabs': 'off',
+		'style/arrow-parens': ['error', 'always'],
 		'style/jsx-quotes': ['error', 'prefer-single'],
 		'style/jsx-indent-props': ['error', 'tab'],
 		'style/indent': ['off', 'tab'],
 		'style/indent-binary-ops': ['off', 'tab'],
-		'node/prefer-global/process': 'off'
+
+		'node/prefer-global/process': 'off',
 	},
 	stylistic: {
 		semi: true,
