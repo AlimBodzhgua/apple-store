@@ -16,6 +16,7 @@ export default antfu({
 		'style/jsx-indent-props': ['error', 'tab'],
 		'style/indent': ['off', 'tab'],
 		'style/indent-binary-ops': ['off', 'tab'],
+		'node/prefer-global/process': 'off'
 	},
 	stylistic: {
 		semi: true,
