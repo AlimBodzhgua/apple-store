@@ -18,7 +18,7 @@ const colorFormSchema = z.object({
 	hexCode: z
 		.string()
 		.regex(
-			/^#i{6}$/,
+			/^#[0-9A-Fa-f]{6}$/,
 			'Invalid hex format. Copy hex code from color select menu including # symbol',
 		),
 });
