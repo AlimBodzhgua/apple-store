@@ -28,12 +28,10 @@ export function DeleteConfirmAlert(props: DeleteConfigrmAlertProps) {
 			<AlertDialogContent>
 				<AlertDialogHeader>
 					<AlertDialogTitle>
-						{title ? title : 'Are you absolutely sure?'}
+						{title ?? 'Are you absolutely sure?'}
 					</AlertDialogTitle>
 					<AlertDialogDescription>
-						{description
-							? description
-							: 'This action cannot be undone. This will permanently delete data.'}
+						{description ?? 'This action cannot be undone. This will permanently delete data.'}
 					</AlertDialogDescription>
 				</AlertDialogHeader>
 				<AlertDialogFooter>

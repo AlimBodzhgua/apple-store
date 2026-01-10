@@ -1,9 +1,10 @@
 'use server';
 
+import type { DashboardFormsStateType } from '../types';
+
 import { revalidateTag, updateTag } from 'next/cache';
 import { z } from 'zod';
 import { prisma } from '@/shared/lib/prisma';
-import type { DashboardFormsStateType } from '../types';
 
 const categoryFormSchema = z.object({
 	name: z.string().min(3, { message: 'Product name must contain at leat 3 characters' }),
@@ -48,8 +49,8 @@ export const createCategoryAction = async (
 			message: 'Category succesfully created',
 		};
 	} catch (error) {
-		let errorMsg =
-			'An error occurred during create category, reload the page or try it later';
+		let errorMsg
+			= 'An error occurred during create category, reload the page or try it later';
 
 		if (error instanceof Error) {
 			errorMsg = error.message;
@@ -63,7 +64,6 @@ export const updateCategoryAction = async (
 	prevState: DashboardFormsStateType | null,
 	data: FormData,
 ): Promise<DashboardFormsStateType> => {
-	console.log(data);
 	const id = data.get('id');
 	const name = data.get('name');
 	const description = data.get('description');

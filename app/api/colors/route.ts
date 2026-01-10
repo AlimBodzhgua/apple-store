@@ -1,5 +1,6 @@
+import type { NextRequest } from 'next/server';
+import { NextResponse } from 'next/server';
 import { prisma } from '@/shared/lib/prisma';
-import { NextRequest, NextResponse } from 'next/server';
 
 export async function GET(req: NextRequest) {
 	try {
@@ -33,6 +34,4 @@ export async function GET(req: NextRequest) {
 			errorMessage: 'Internal server error',
 		});
 	}
-
 };
-

@@ -1,11 +1,12 @@
 'use client';
 
+import type { ColumnDef } from '@tanstack/react-table';
+import type { Category } from '@/prisma/generated/prisma/client';
+
+import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
 import { useCallback, useState } from 'react';
 import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
-import { ColumnDef } from '@tanstack/react-table';
-import type { Category } from '@/prisma/generated/prisma/client';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -15,18 +16,21 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { UpdateCategoryForm } from './_components/update-category-form';
+
 import { DeleteConfirmAlert } from '../delete-confirm-alert';
+import { UpdateCategoryForm } from './_components/update-category-form';
 
 const removeCategory = async (id: string): Promise<Category[]> => {
 	const response = await fetch(`http://localhost:3000/api/categories/${id}`, {
 		method: 'DELETE',
 	});
 
-	if (!response.ok) throw new Error('Error fetching colors');
+	if (!response.ok) {
+		throw new Error('Error fetching colors');
+	}
 
 	return response.json();
-}
+};
 
 export const columns: ColumnDef<Category>[] = [
 	{
@@ -63,7 +67,7 @@ export const columns: ColumnDef<Category>[] = [
 					await removeCategory(categoryId);
 					router.refresh();
 					toast.success('Category succesfully deleted');
-				} catch (error) {
+				} catch {
 					toast.error('Error deleteing color', {
 						position: 'top-center',
 						description:
@@ -82,7 +86,6 @@ export const columns: ColumnDef<Category>[] = [
 						<Button
 							size='xs'
 							variant='outline'
-							//onClick={onRemove}
 							className='hover:text-red-500 hover:border-red-500'
 						>
 							<TrashIcon />
@@ -118,5 +121,5 @@ export const columns: ColumnDef<Category>[] = [
 				</div>
 			);
 		},
-	}
+	},
 ];

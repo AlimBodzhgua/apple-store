@@ -1,9 +1,10 @@
 'use server';
 
+import type { FormStateType } from '@/shared/types';
+
 import { headers } from 'next/headers';
 import { redirect } from 'next/navigation';
 import z from 'zod';
-import type { FormStateType } from '@/shared/types';
 import { auth } from '@/shared/lib/auth';
 
 export type AuthFormsStateErrors = {
@@ -51,7 +52,6 @@ export const signUpUserAction = async (
 				name: name as string,
 			},
 		});
-
 	} catch (error) {
 		let errorMsg = 'An error occurred during sign up, reload the page or try it later';
 
@@ -61,7 +61,7 @@ export const signUpUserAction = async (
 
 		return { errors: { general: errorMsg } };
 	}
-	
+
 	redirect('/');
 };
 
@@ -97,7 +97,6 @@ export const signInUserAction = async (
 				password: password as string,
 			},
 		});
-
 	} catch (error) {
 		let errorMsg = 'An error occurred during sign in, reload the page or try it later';
 

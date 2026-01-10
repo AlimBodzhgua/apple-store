@@ -1,12 +1,14 @@
 'use client';
 
-import { useActionState } from 'react';
-import Link from 'next/link';
+import type { AuthFormsStateType } from '@/app/actions/auth';
+
 import Image from 'next/image';
-import { type AuthFormsStateType, signInUserAction } from '@/app/actions/auth';
-import { PasswordInput } from '@/components/ui/password-input';
+import Link from 'next/link';
+import { useActionState } from 'react';
+import { signInUserAction } from '@/app/actions/auth';
 import { Container } from '@/components/shared';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { cn } from '@/shared/lib/utils';
 import { SubmitButton } from '../submit-button';
 
@@ -17,7 +19,7 @@ type SignInProps = {
 const initialState: AuthFormsStateType = {
     errors: {},
     success: false,
-    message: ''
+    message: '',
 };
 
 export default function SignIn({ className }: SignInProps) {
@@ -61,11 +63,12 @@ export default function SignIn({ className }: SignInProps) {
 
 						<SubmitButton text='Sign In	' />
 						<div>
-							Dont have an account? <Link href='/signUp'>sign up</Link>
+							Dont have an account?&nbsp;
+							<Link href='/signUp'>sign up</Link>
 						</div>
 					</div>
 				</form>
 			</Container>
 		</div>
 	);
-}
+};

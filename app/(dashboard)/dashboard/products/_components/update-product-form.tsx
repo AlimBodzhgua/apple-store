@@ -30,8 +30,6 @@ export function UpdateProductForm(props: UpdateProductFormProps) {
 			initialDescription={initialDescription}
 			initialPrice={initialPrice}
 			initialSlug={initialSlug}
-			initialCategoryId={'123'}
-			initialColorId={'456'}
 			additionalFormSelectors={<></>}
 			onSuccess={onSuccess}
 			className={className}

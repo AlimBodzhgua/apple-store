@@ -3,4 +3,4 @@ export const FormMode = {
   update: 'update',
 } as const;
 
-export type FormMode = typeof FormMode[keyof typeof FormMode];
+export type FormModeType = typeof FormMode[keyof typeof FormMode];

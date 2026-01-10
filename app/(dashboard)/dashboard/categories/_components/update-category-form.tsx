@@ -16,11 +16,13 @@ export function UpdateCategoryForm(props: UpdateCategoryFormProps) {
 		onSuccess,
 	} = props;
 
-	return <CategoryForm
-		type='update'
-		id={id}
-		initialName={initialName}
-		initialDescription={initialDescription}
-		onSuccess={onSuccess}
-	/>;
-}
+	return (
+		<CategoryForm
+			type='update'
+			id={id}
+			initialName={initialName}
+			initialDescription={initialDescription}
+			onSuccess={onSuccess}
+		/>
+	);
+};

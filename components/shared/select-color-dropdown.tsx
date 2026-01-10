@@ -18,7 +18,7 @@ export const SelectColorDropdown = ({ className }: SelectColoDropdownProps) => {
 		<DropdownMenu>
 			<DropdownMenuTrigger asChild>
 				<Button className={cn('bg-blue-500 hover:bg-blue-600', className)}>
-					Select Color 
+					Select Color
 					<span>&#9660;</span>
 				</Button>
 			</DropdownMenuTrigger>

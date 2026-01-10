@@ -1,3 +1,5 @@
+import type { Color } from '@/prisma/generated/prisma/client';
+
 import { use } from 'react';
 import { Label } from '@/components/ui/label';
 import {
@@ -9,7 +11,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import type { Color } from '@/prisma/generated/prisma/client';
 
 const getColors = async (): Promise<Color[]> => {
 	const response = await fetch('http://localhost:3000/api/colors', {

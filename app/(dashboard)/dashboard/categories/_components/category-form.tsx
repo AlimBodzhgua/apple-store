@@ -1,14 +1,15 @@
 'use client';
 
+import type { DashboardFormsStateType } from '../../types';
+import type { FormMode } from '@/shared/constants/form';
+
 import { useActionState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
-import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
+import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/shared/lib/utils';
-import type { FormMode } from '@/shared/constants/form';
 
-import type { DashboardFormsStateType } from '../../types';
 import { SubmitButton } from '../../submit-button';
 import { createCategoryAction, updateCategoryAction } from '../actions';
 
@@ -51,7 +52,7 @@ export function CategoryForm(props: CategoryFormProps) {
 	useEffect(() => {
 		if (state.success && onSuccess) {
 			onSuccess();
-			
+
 			toast.success(state.message, { position: 'top-center' });
 		}
 	}, [onSuccess, state]);

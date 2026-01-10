@@ -1,5 +1,5 @@
-import { auth } from '@/shared/lib/auth';
 import { headers } from 'next/headers';
+import { auth } from '@/shared/lib/auth';
 
 export default async function Home() {
 	const session = await auth.api.getSession({

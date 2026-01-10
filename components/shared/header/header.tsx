@@ -38,9 +38,9 @@ export const Header: FC<HeaderProps> = async ({ className }) => {
 				</Link>
 				<Input placeholder='Пойск товаров' className='w-[60%]' />
 				<div className='flex gap-2 items-center w-[20%]'>
-					{session ? (
-						<UserDropdownMenu />
-					) : (
+					{session
+					? <UserDropdownMenu />
+					: (
 						<Button asChild>
 							<Link href='/signIn'>Login</Link>
 						</Button>

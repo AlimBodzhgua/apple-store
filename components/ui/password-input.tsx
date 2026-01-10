@@ -1,10 +1,10 @@
 'use client';
-import { useState } from 'react';
-import type { FC, ComponentProps } from 'react';
+import type { ComponentProps, FC } from 'react';
 import { Eye as EyeIcon, EyeOffIcon } from 'lucide-react';
+import { useState } from 'react';
 import { cn } from '@/shared/lib/utils';
-import { Input } from './input';
 import { Button } from './button';
+import { Input } from './input';
 
 type PaswordInputProps = {
 	className?: string;

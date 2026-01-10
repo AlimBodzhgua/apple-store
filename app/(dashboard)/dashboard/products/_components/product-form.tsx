@@ -1,14 +1,16 @@
 'use client';
 
-import { type ReactNode, useActionState, useEffect } from 'react';
+import type { ReactNode } from 'react';
+import type { DashboardFormsStateType } from '../../types';
+import type { FormMode } from '@/shared/constants/form';
+
+import { useActionState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
-import { FormMode } from '@/shared/constants/form';
 import { cn } from '@/shared/lib/utils';
 
-import type { DashboardFormsStateType } from '../../types';
 import { SubmitButton } from '../../submit-button';
 import { createProductAction, updateProductAction } from '../actions';
 
@@ -19,8 +21,6 @@ type UpdateProductFormProps = {
 	initialSlug: string;
 	initialDescription: string;
 	initialPrice: number;
-	initialColorId: string;
-	initialCategoryId: string;
 
 	onSuccess?: () => void;
 	additionalFormSelectors?: ReactNode;
@@ -60,7 +60,7 @@ export function ProductForm(props: ProductFormProps) {
 	useEffect(() => {
 		if (state.success && onSuccess) {
 			onSuccess();
-			
+
 			toast.success(state.message, { position: 'top-center' });
 		}
 	}, [onSuccess, state]);
@@ -78,7 +78,7 @@ export function ProductForm(props: ProductFormProps) {
 						className='read-only:bg-gray-200 read-only:cursor-not-allowed pointer-events-none'
 						readOnly
 					/>
-				</div>	
+				</div>
 			)}
 			<div className='mb-4'>
 				<Label htmlFor='name' className='pl-1 mb-1'>

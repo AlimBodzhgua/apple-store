@@ -1,8 +1,10 @@
 'use server';
-import { z } from 'zod';
-import { updateTag } from 'next/cache';
-import { prisma } from '@/shared/lib/prisma';
+
 import type { DashboardFormsStateType } from '../types';
+
+import { updateTag } from 'next/cache';
+import { z } from 'zod';
+import { prisma } from '@/shared/lib/prisma';
 
 const productFormSchema = z.object({
 	name: z.string().min(3, { message: 'Product name must contain at leat 3 characters' }),
@@ -77,8 +79,8 @@ export const createProductAction = async (
 			message: 'Product succesfully created',
 		};
 	} catch (error) {
-		let errorMsg =
-			'An error occurred during create product, reload the page or try it later';
+		let errorMsg
+			= 'An error occurred during create product, reload the page or try it later';
 
 		if (error instanceof Error) {
 			errorMsg = error.message;
@@ -87,8 +89,6 @@ export const createProductAction = async (
 		return { errors: { general: errorMsg } };
 	}
 };
-
-
 
 export const updateProductAction = async (
 	prevState: DashboardFormsStateType | null,
@@ -99,21 +99,21 @@ export const updateProductAction = async (
 	const slug = data.get('slug');
 	const description = data.get('description');
 	const price = data.get('price');
-	
+
 	try {
 		const product = await prisma.product.findFirst({
 			where: {
 				id: id as string,
 			},
 		});
-		
+
 		if (!product) {
 			return {
 				success: false,
 				message: 'Product not found',
 			};
 		}
-		
+
 		const validationResult = productFormSchema.safeParse({
 			name,
 			slug,
@@ -122,10 +122,10 @@ export const updateProductAction = async (
 			categoryId: product.categoryId,
 			colorId: product.colorId,
 		});
-	
+
 		if (!validationResult.success) {
 			const flatten = z.flattenError(validationResult.error);
-	
+
 			return {
 				errors: {
 					name: flatten.fieldErrors.name,
@@ -155,8 +155,8 @@ export const updateProductAction = async (
 			message: 'Product succesfully updated',
 		};
 	} catch (error) {
-		let errorMsg =
-			'An error occurred during create category, reload the page or try it later';
+		let errorMsg
+			= 'An error occurred during create category, reload the page or try it later';
 
 		if (error instanceof Error) {
 			errorMsg = error.message;

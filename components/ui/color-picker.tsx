@@ -1,11 +1,10 @@
 'use client';
 
+import type { ComponentProps, HTMLAttributes } from 'react';
 import Color from 'color';
 import { PipetteIcon } from 'lucide-react';
 import { Slider } from 'radix-ui';
 import {
-	type ComponentProps,
-	type HTMLAttributes,
 	createContext,
 	memo,
 	useCallback,
@@ -25,6 +24,7 @@ import {
 	SelectValue,
 } from '@/components/ui/select';
 import { cn } from '@/shared/lib/utils';
+
 interface ColorPickerContextValue {
 	hue: number;
 	saturation: number;
@@ -37,7 +37,9 @@ interface ColorPickerContextValue {
 	setAlpha: (alpha: number) => void;
 	setMode: (mode: string) => void;
 }
+
 const ColorPickerContext = createContext<ColorPickerContextValue | undefined>(undefined);
+
 export const useColorPicker = () => {
 	const context = useContext(ColorPickerContext);
 	if (!context) {
@@ -45,11 +47,13 @@ export const useColorPicker = () => {
 	}
 	return context;
 };
+
 export type ColorPickerProps = HTMLAttributes<HTMLDivElement> & {
 	value?: Parameters<typeof Color>[0];
 	defaultValue?: Parameters<typeof Color>[0];
 	onChange?: (value: Parameters<typeof Color.rgb>[0]) => void;
 };
+
 export const ColorPicker = ({
 	value,
 	defaultValue = '#000000',
@@ -110,7 +114,9 @@ export const ColorPicker = ({
 		</ColorPickerContext.Provider>
 	);
 };
+
 export type ColorPickerSelectionProps = HTMLAttributes<HTMLDivElement>;
+
 export const ColorPickerSelection = memo(
 	({ className, ...props }: ColorPickerSelectionProps) => {
 		const containerRef = useRef<HTMLDivElement>(null);
@@ -177,8 +183,11 @@ export const ColorPickerSelection = memo(
 		);
 	},
 );
+
 ColorPickerSelection.displayName = 'ColorPickerSelection';
+
 export type ColorPickerHueProps = ComponentProps<typeof Slider.Root>;
+
 export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => {
 	const { hue, setHue } = useColorPicker();
 	return (
@@ -197,7 +206,9 @@ export const ColorPickerHue = ({ className, ...props }: ColorPickerHueProps) => 
 		</Slider.Root>
 	);
 };
+
 export type ColorPickerAlphaProps = ComponentProps<typeof Slider.Root>;
+
 export const ColorPickerAlpha = ({ className, ...props }: ColorPickerAlphaProps) => {
 	const { alpha, setAlpha } = useColorPicker();
 	return (

@@ -1,5 +1,7 @@
-import { use } from 'react';
 import type { Category } from '@/prisma/generated/prisma/client';
+
+import { use } from 'react';
+import { Label } from '@/components/ui/label';
 import {
 	Select,
 	SelectContent,
@@ -9,7 +11,6 @@ import {
 	SelectTrigger,
 	SelectValue,
 } from '@/components/ui/select';
-import { Label } from '@/components/ui/label';
 
 const getCategories = async (): Promise<Category[]> => {
 	const response = await fetch('http://localhost:3000/api/categories', {

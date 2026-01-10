@@ -1,12 +1,14 @@
 'use client';
 
-import { useActionState } from 'react';
-import Link from 'next/link';
+import type { AuthFormsStateType } from '@/app/actions/auth';
+
 import Image from 'next/image';
-import { type AuthFormsStateType, signUpUserAction } from '@/app/actions/auth';
-import { PasswordInput } from '@/components/ui/password-input';
+import Link from 'next/link';
+import { useActionState } from 'react';
+import { signUpUserAction } from '@/app/actions/auth';
 import { Container } from '@/components/shared';
 import { Input } from '@/components/ui/input';
+import { PasswordInput } from '@/components/ui/password-input';
 import { cn } from '@/shared/lib/utils';
 import { SubmitButton } from '../submit-button';
 
@@ -68,11 +70,12 @@ export default function SignUp({ className }: SignUpProps) {
 
 						<SubmitButton text='Sign Up' />
 						<div>
-							Already have an account? <Link href='/signIn'>sign in</Link>
+							Already have an account?&nbsp;
+							<Link href='/signIn'>sign in</Link>
 						</div>
 					</div>
 				</form>
 			</Container>
 		</div>
 	);
-}
+};

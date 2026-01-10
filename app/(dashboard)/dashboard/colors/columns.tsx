@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { useRouter } from 'next/navigation';
-import { toast } from 'sonner';
-import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { Color } from '@/prisma/generated/prisma/client';
+
+import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -15,15 +16,18 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { UpdateColorForm } from './_components/update-color-form';
+
 import { DeleteConfirmAlert } from '../delete-confirm-alert';
+import { UpdateColorForm } from './_components/update-color-form';
 
 const removeColor = async (id: string): Promise<Color[]> => {
 	const response = await fetch(`http://localhost:3000/api/colors/${id}`, {
 		method: 'DELETE',
 	});
 
-	if (!response.ok) throw new Error('Error fetching colors');
+	if (!response.ok) {
+		throw new Error('Error fetching colors');
+	}
 
 	return response.json();
 };
@@ -81,7 +85,7 @@ export const columns: ColumnDef<Color>[] = [
 					await removeColor(colorId);
 					router.refresh();
 					toast.success('Color succesfully deleted', { position: 'top-center' });
-				} catch (error) {
+				} catch {
 					toast.error('Error deleteing color', {
 						position: 'top-center',
 						description:

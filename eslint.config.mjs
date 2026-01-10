@@ -9,18 +9,21 @@ export default antfu({
 	rules: {
 		'antfu/top-level-function': 'off',
 		'ts/consistent-type-definitions': 'off',
-		
+		'node/prefer-global/process': 'off',
+
 		'style/no-tabs': 'off',
 		'style/arrow-parens': ['error', 'always'],
 		'style/jsx-quotes': ['error', 'prefer-single'],
 		'style/jsx-indent-props': ['error', 'tab'],
 		'style/indent': ['off', 'tab'],
 		'style/indent-binary-ops': ['off', 'tab'],
-
-		'node/prefer-global/process': 'off',
+		'style/brace-style': ['error', '1tbs', { allowSingleLine: true }],
 
 		'perfectionist/sort-named-imports': ['warn', {
-			'type': 'alphabetical', 
+			type: 'alphabetical',
+		}],
+		'perfectionist/sort-named-exports': ['warn', {
+			type: 'alphabetical',
 		}],
 	},
 	stylistic: {

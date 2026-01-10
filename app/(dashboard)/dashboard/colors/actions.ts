@@ -1,9 +1,10 @@
 'use server';
 
+import type { DashboardFormsStateType } from '../types';
+
 import { revalidateTag, updateTag } from 'next/cache';
 import { z } from 'zod';
 import { prisma } from '@/shared/lib/prisma';
-import type { DashboardFormsStateType } from '../types';
 
 const colorFormSchema = z.object({
 	name: z.string().min(4, { message: 'Color name must contain at leat 4 characters' }),
@@ -17,7 +18,7 @@ const colorFormSchema = z.object({
 	hexCode: z
 		.string()
 		.regex(
-			/^#[0-9A-Fa-f]{6}$/,
+			/^#i{6}$/,
 			'Invalid hex format. Copy hex code from color select menu including # symbol',
 		),
 });
@@ -60,7 +61,6 @@ export const createColorAction = async (
 			success: true,
 			message: 'Color succesfully created',
 		};
-
 	} catch (error) {
 		let errorMsg = 'An error occurred during create color, reload the page or try it later';
 
@@ -76,7 +76,6 @@ export const updateColorAction = async (
 	prevState: DashboardFormsStateType | null,
 	data: FormData,
 ): Promise<DashboardFormsStateType> => {
-	console.log(data);
 	const id = data.get('id');
 	const name = data.get('name');
 	const slug = data.get('slug');
@@ -127,7 +126,6 @@ export const updateColorAction = async (
 			success: true,
 			message: 'Color succesfully updated',
 		};
-
 	} catch (error) {
 		let errorMsg = 'An error occurred during create color, reload the page or try it later';
 

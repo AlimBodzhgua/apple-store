@@ -1,14 +1,15 @@
 'use client';
 
+import type { DashboardFormsStateType } from '../../types';
+import type { FormMode } from '@/shared/constants/form';
+
 import { useActionState, useEffect } from 'react';
 import { toast } from 'sonner';
 import { SelectColorDropdown } from '@/components/shared';
 import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
-import type { FormMode } from '@/shared/constants/form';
 import { cn } from '@/shared/lib/utils';
 
-import type { DashboardFormsStateType } from '../../types';
 import { SubmitButton } from '../../submit-button';
 import { createColorAction, updateColorAction } from '../actions';
 
@@ -52,13 +53,12 @@ export function ColorForm(props: ColorFormProps) {
 	useEffect(() => {
 		if (state.success && onSuccess) {
 			onSuccess();
-			
+
 			toast.success(state.message, {
 				position: 'top-center',
 			});
 		}
 	}, [state, onSuccess]);
-
 
 	return (
 		<form action={formAction} className={cn(className)}>

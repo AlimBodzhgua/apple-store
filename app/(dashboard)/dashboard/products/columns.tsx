@@ -1,11 +1,12 @@
 'use client';
 
-import { useCallback, useState } from 'react';
-import { toast } from 'sonner';
-import { useRouter } from 'next/navigation';
-import { Trash as TrashIcon, SquarePen as SquarePenIcon } from 'lucide-react';
 import type { ColumnDef } from '@tanstack/react-table';
 import type { Product } from '@/prisma/generated/prisma/client';
+
+import { SquarePen as SquarePenIcon, Trash as TrashIcon } from 'lucide-react';
+import { useRouter } from 'next/navigation';
+import { useCallback, useState } from 'react';
+import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import {
 	Dialog,
@@ -15,15 +16,18 @@ import {
 	DialogTitle,
 	DialogTrigger,
 } from '@/components/ui/dialog';
-import { UpdateProductForm } from './_components/update-product-form';
+
 import { DeleteConfirmAlert } from '../delete-confirm-alert';
+import { UpdateProductForm } from './_components/update-product-form';
 
 const removeProduct = async (id: string): Promise<Product[]> => {
 	const response = await fetch(`http://localhost:3000/api/products/${id}`, {
 		method: 'DELETE',
 	});
 
-	if (!response.ok) throw new Error('Error fetching colors');
+	if (!response.ok) {
+		throw new Error('Error fetching products');
+	}
 
 	return response.json();
 };
@@ -41,7 +45,7 @@ const createDateColumn = (
 		accessorKey,
 		header,
 		cell: ({ row }) => {
-			const dateValue = parseFloat(row.getValue(accessorKey));
+			const dateValue = Number.parseFloat(row.getValue(accessorKey));
 			const formattedDate = dateFormatter.format(dateValue);
 
 			return <div className='text-right font-medium'>{formattedDate}</div>;
@@ -70,7 +74,7 @@ export const columns: ColumnDef<Product>[] = [
 		accessorKey: 'price',
 		header: 'Price',
 		cell: ({ row }) => {
-			const price = parseFloat(row.getValue('price'));
+			const price = Number.parseFloat(row.getValue('price'));
 
 			const formatter = new Intl.NumberFormat('en-US', {
 				style: 'currency',
@@ -104,7 +108,7 @@ export const columns: ColumnDef<Product>[] = [
 			const description: string = row.getValue('description');
 
 			const [isModalOpened, setIsModalOpened] = useState<boolean>(false);
-			
+
 			const router = useRouter();
 
 			const onRemove = async () => {
@@ -112,7 +116,7 @@ export const columns: ColumnDef<Product>[] = [
 					await removeProduct(productId);
 					router.refresh();
 					toast.success('Category succesfully deleted');
-				} catch (error) {
+				} catch {
 					toast.error('Error deleteing color', {
 						position: 'top-center',
 						description:
@@ -122,7 +126,7 @@ export const columns: ColumnDef<Product>[] = [
 			};
 
 			const toggleModalOpened = useCallback(() => {
-				setIsModalOpened((prev) => !prev)
+				setIsModalOpened((prev) => !prev);
 			}, []);
 
 			return (

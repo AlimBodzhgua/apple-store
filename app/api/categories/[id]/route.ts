@@ -1,6 +1,7 @@
-import { prisma } from '@/shared/lib/prisma';
-import { type NextRequest, NextResponse } from 'next/server';
+import type { NextRequest } from 'next/server';
 import { revalidatePath } from 'next/cache';
+import { NextResponse } from 'next/server';
+import { prisma } from '@/shared/lib/prisma';
 
 export async function DELETE(req: NextRequest, context: RouteContext<'/api/products/[id]'>) {
 	try {
