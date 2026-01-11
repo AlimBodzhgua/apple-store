@@ -48,7 +48,7 @@ const createDateColumn = (
 			const dateValue = Number.parseFloat(row.getValue(accessorKey));
 			const formattedDate = dateFormatter.format(dateValue);
 
-			return <div className='text-right font-medium'>{formattedDate}</div>;
+			return <div className='text-left font-medium'>{formattedDate}</div>;
 		},
 	};
 };
@@ -83,7 +83,7 @@ export const columns: ColumnDef<Product>[] = [
 
 			const formattedPrice = formatter.format(price);
 
-			return <div className='text-right font-medium'>{formattedPrice}</div>;
+			return <div className='text-left font-medium'>{formattedPrice}</div>;
 		},
 	},
 	{
