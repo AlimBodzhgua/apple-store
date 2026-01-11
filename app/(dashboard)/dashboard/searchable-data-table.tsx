@@ -11,7 +11,7 @@ import {
 	useReactTable,
 } from '@tanstack/react-table';
 import { ChevronDown } from 'lucide-react';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
@@ -20,7 +20,9 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
+import { COLUMN_VISIBILITY_PREFIX } from './constants';
 import { DataTable } from './data-table';
+import { updateColumnVisibility } from './utils';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];
@@ -52,6 +54,21 @@ export function SearchableDataTable<TData, TValue>(props: DataTableProps<TData, 
 		},
 	});
 
+	useEffect(() => {
+		const path = window.location.pathname;
+		const storageKey = COLUMN_VISIBILITY_PREFIX + path;
+		const stored = localStorage.getItem(storageKey);
+
+		if (stored) {
+			const invisibleColumns = JSON.parse(stored);
+			table.getAllColumns().forEach((column) => {
+				if (invisibleColumns[column.id]) {
+					column.toggleVisibility(false);
+				}
+			});
+		}
+	}, []);
+
 	const onSearch = (e: ChangeEvent<HTMLInputElement>) => setGlobalFilter(e.target.value);
 
 	return (
@@ -82,6 +99,8 @@ export function SearchableDataTable<TData, TValue>(props: DataTableProps<TData, 
 										className='capitalize'
 										checked={column.getIsVisible()}
 										onCheckedChange={(value) => {
+											updateColumnVisibility(column.id, !value);
+
 											column.toggleVisibility(!!value);
 										}}
 									>
@@ -89,7 +108,6 @@ export function SearchableDataTable<TData, TValue>(props: DataTableProps<TData, 
 									</DropdownMenuCheckboxItem>
 								);
 							})}
-						;
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>
