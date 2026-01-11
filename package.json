@@ -10,7 +10,8 @@
     "lint:fix": "eslint --fix",
     "prisma:generate": "npx prisma generate",
     "prisma:migrate": "npx prisma migrate dev",
-    "prisma:studio": "npx prisma studio"
+    "prisma:studio": "npx prisma studio",
+    "prepare": "husky"
   },
   "dependencies": {
     "@better-auth/cli": "^1.4.7",
@@ -51,6 +52,8 @@
     "@types/react-dom": "^19",
     "eslint": "^9.39.2",
     "eslint-config-next": "16.0.10",
+    "husky": "9.1.7",
+    "lint-staged": "16.2.7",
     "tailwindcss": "^4",
     "tsx": "^4.21.0",
     "typescript": "^5"
