@@ -2,8 +2,8 @@ import { Suspense } from 'react';
 import { Skeleton } from '@/components/ui/skeleton';
 import { cn } from '@/shared/lib/utils';
 
-import { CategorySelect } from '../../category-select';
-import { ColorSelect } from '../../color-select';
+import { CategorySelect } from './category-select';
+import { ColorSelect } from './color-select';
 
 type ProductFormSelectorsProps = {
 	className?: string;

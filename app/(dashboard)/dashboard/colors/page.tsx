@@ -3,8 +3,8 @@ import type { Color } from '@/prisma/generated/prisma/client';
 import { use } from 'react';
 import { Container } from '@/components/shared';
 
-import { PageHeader } from '../page-header';
-import { SearchableDataTable } from '../searchable-data-table';
+import { PageHeader } from '../_components/page-header';
+import { SearchableDataTable } from '../_components/searchable-data-table';
 import { CreateColorForm } from './_components/create-color-form';
 import { columns } from './columns';
 

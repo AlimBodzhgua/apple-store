@@ -10,7 +10,7 @@ import { Input } from '@/components/ui/input';
 import { Label } from '@/components/ui/label';
 import { cn } from '@/shared/lib/utils';
 
-import { SubmitButton } from '../../submit-button';
+import { SubmitButton } from '../../_components/submit-button';
 import { createColorAction, updateColorAction } from '../actions';
 
 type UpdateColorFormProps = {

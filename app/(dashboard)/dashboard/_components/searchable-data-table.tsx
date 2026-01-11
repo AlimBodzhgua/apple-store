@@ -20,9 +20,9 @@ import {
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Input } from '@/components/ui/input';
-import { COLUMN_VISIBILITY_PREFIX } from './constants';
+import { COLUMN_VISIBILITY_PREFIX } from '../constants';
+import { updateColumnVisibility } from '../utils';
 import { DataTable } from './data-table';
-import { updateColumnVisibility } from './utils';
 
 interface DataTableProps<TData, TValue> {
 	columns: ColumnDef<TData, TValue>[];

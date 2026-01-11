@@ -17,7 +17,7 @@ import {
 	DialogTrigger,
 } from '@/components/ui/dialog';
 
-import { DeleteConfirmAlert } from '../delete-confirm-alert';
+import { DeleteConfirmAlert } from '../_components/delete-confirm-alert';
 import { UpdateProductForm } from './_components/update-product-form';
 
 const removeProduct = async (id: string): Promise<Product[]> => {

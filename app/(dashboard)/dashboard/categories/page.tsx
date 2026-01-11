@@ -3,8 +3,8 @@ import type { Category } from '@/prisma/generated/prisma/client';
 import { use } from 'react';
 import { Container } from '@/components/shared';
 
-import { PageHeader } from '../page-header';
-import { SearchableDataTable } from '../searchable-data-table';
+import { PageHeader } from '../_components/page-header';
+import { SearchableDataTable } from '../_components/searchable-data-table';
 import { CreateCategoryForm } from './_components/create-category-form';
 import { columns } from './columns';
 

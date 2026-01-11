@@ -10,7 +10,7 @@ import { Label } from '@/components/ui/label';
 import { Textarea } from '@/components/ui/textarea';
 import { cn } from '@/shared/lib/utils';
 
-import { SubmitButton } from '../../submit-button';
+import { SubmitButton } from '../../_components/submit-button';
 import { createCategoryAction, updateCategoryAction } from '../actions';
 
 type UpdateCategoryFormProps = {
