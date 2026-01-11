@@ -3,7 +3,7 @@ import type { Category } from '@/prisma/generated/prisma/client';
 import { use } from 'react';
 import { Container } from '@/components/shared';
 
-import { DataTable } from '../data-table';
+import { SearchableDataTable } from '../searchable-data-table';
 import { PageHeader } from '../page-header';
 import { CreateCategoryForm } from './_components/create-category-form';
 import { columns } from './columns';
@@ -28,9 +28,9 @@ export default function Categories() {
 				buttonText='Add Category'
 				form={<CreateCategoryForm />}
 			/>
-			<DataTable
-				columns={columns}
+			<SearchableDataTable
 				data={categories}
+				columns={columns}
 			/>
 		</Container>
 	);

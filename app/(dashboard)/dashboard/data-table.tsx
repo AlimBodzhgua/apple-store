@@ -1,6 +1,6 @@
 'use client';
 
-import type { ColumnDef } from '@tanstack/react-table';
+import type { ColumnDef, Table as TableType } from '@tanstack/react-table';
 
 import {
 	flexRender,
@@ -22,12 +22,7 @@ interface DataTableProps<TData, TValue> {
 	data: TData[];
 }
 
-export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData, TValue>) {
-	const table = useReactTable({
-		data,
-		columns,
-		getCoreRowModel: getCoreRowModel(),
-	});
+export function DataTable<TData>({ table }: { table: TableType<TData> }) {
 
 	return (
 		<div className='overflow-hidden rounded border border-[#e6e6e6]'>
@@ -70,7 +65,7 @@ export function DataTable<TData, TValue>({ columns, data }: DataTableProps<TData
 						)))
 						: (
 							<TableRow>
-								<TableCell colSpan={columns.length} className='h-24 text-center'>
+								<TableCell colSpan={table.getAllColumns().length} className='h-24 text-center'>
 									No results.
 								</TableCell>
 							</TableRow>

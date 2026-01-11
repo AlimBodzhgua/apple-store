@@ -3,8 +3,8 @@ import type { Color } from '@/prisma/generated/prisma/client';
 import { use } from 'react';
 import { Container } from '@/components/shared';
 
-import { DataTable } from '../data-table';
 import { PageHeader } from '../page-header';
+import { SearchableDataTable } from '../searchable-data-table';
 import { CreateColorForm } from './_components/create-color-form';
 import { columns } from './columns';
 
@@ -23,10 +23,11 @@ const getColors = async (): Promise<Color[]> => {
 export default function Colors() {
 	const colors = use(getColors());
 
+
 	return (
 		<Container className='flex flex-col h-full justify-start py-5'>
 			<PageHeader title='Colors' buttonText='Add Color' form={<CreateColorForm />} />
-			<DataTable columns={columns} data={colors} />
+			<SearchableDataTable columns={columns} data={colors} />
 		</Container>
 	);
 };

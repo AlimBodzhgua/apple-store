@@ -3,7 +3,7 @@ import type { Product } from '@/prisma/generated/prisma/client';
 import { use } from 'react';
 import { Container } from '@/components/shared';
 
-import { DataTable } from '../data-table';
+import { SearchableDataTable } from '../searchable-data-table';
 import { PageHeader } from '../page-header';
 import { CreateProductForm } from './_components/create-product-form';
 import { columns } from './columns';
@@ -28,7 +28,10 @@ export default function Products() {
 				buttonText='Add Product'
 				form={<CreateProductForm />}
 			/>
-			<DataTable columns={columns} data={products} />
+			<SearchableDataTable
+				data={products}
+				columns={columns}
+			/>
 		</Container>
 	);
 };
