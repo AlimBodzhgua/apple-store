@@ -3,8 +3,8 @@ import type { Product } from '@/prisma/generated/prisma/client';
 import { use } from 'react';
 import { Container } from '@/components/shared';
 
-import { SearchableDataTable } from '../searchable-data-table';
 import { PageHeader } from '../page-header';
+import { SearchableDataTable } from '../searchable-data-table';
 import { CreateProductForm } from './_components/create-product-form';
 import { columns } from './columns';
 

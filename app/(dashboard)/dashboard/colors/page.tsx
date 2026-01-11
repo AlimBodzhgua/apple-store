@@ -23,7 +23,6 @@ const getColors = async (): Promise<Color[]> => {
 export default function Colors() {
 	const colors = use(getColors());
 
-
 	return (
 		<Container className='flex flex-col h-full justify-start py-5'>
 			<PageHeader title='Colors' buttonText='Add Color' form={<CreateColorForm />} />

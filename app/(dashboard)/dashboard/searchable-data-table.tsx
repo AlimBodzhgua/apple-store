@@ -1,7 +1,8 @@
 'use client';
 
 import type { ColumnDef, ColumnFiltersState } from '@tanstack/react-table';
-import { ChevronDown } from 'lucide-react';
+import type { ChangeEvent } from 'react';
+
 import {
 	getCoreRowModel,
 	getFilteredRowModel,
@@ -9,15 +10,16 @@ import {
 	getSortedRowModel,
 	useReactTable,
 } from '@tanstack/react-table';
-import { Input } from '@/components/ui/input';
-import { ChangeEvent, useState } from 'react';
+import { ChevronDown } from 'lucide-react';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
 import {
 	DropdownMenu,
 	DropdownMenuCheckboxItem,
 	DropdownMenuContent,
 	DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
-import { Button } from '@/components/ui/button';
+import { Input } from '@/components/ui/input';
 import { DataTable } from './data-table';
 
 interface DataTableProps<TData, TValue> {
@@ -34,7 +36,7 @@ export function SearchableDataTable<TData, TValue>(props: DataTableProps<TData, 
 	} = props;
 	const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
 	const [globalFilter, setGlobalFilter] = useState<string>('');
-	
+
 	const table = useReactTable({
 		data,
 		columns,
@@ -48,8 +50,8 @@ export function SearchableDataTable<TData, TValue>(props: DataTableProps<TData, 
 			globalFilter,
 			columnFilters,
 		},
-	})
-	
+	});
+
 	const onSearch = (e: ChangeEvent<HTMLInputElement>) => setGlobalFilter(e.target.value);
 
 	return (
@@ -64,28 +66,30 @@ export function SearchableDataTable<TData, TValue>(props: DataTableProps<TData, 
 
 				<DropdownMenu>
 					<DropdownMenuTrigger asChild>
-						<Button variant="outline" className="ml-auto">
-						Columns <ChevronDown />
+						<Button variant='outline' className='ml-auto'>
+							Columns&nbsp;
+							<ChevronDown />
 						</Button>
 					</DropdownMenuTrigger>
-					<DropdownMenuContent align="end">
+					<DropdownMenuContent align='end'>
 						{table
-						.getAllColumns()
-						.filter((column) => column.getCanHide())
-						.map((column) => {
-							return (
-							<DropdownMenuCheckboxItem
-								key={column.id}
-								className="capitalize"
-								checked={column.getIsVisible()}
-								onCheckedChange={(value) =>
-								column.toggleVisibility(!!value)
-								}
-							>
-								{column.id}
-							</DropdownMenuCheckboxItem>
-							)
-						})}
+							.getAllColumns()
+							.filter((column) => column.getCanHide())
+							.map((column) => {
+								return (
+									<DropdownMenuCheckboxItem
+										key={column.id}
+										className='capitalize'
+										checked={column.getIsVisible()}
+										onCheckedChange={(value) => {
+											column.toggleVisibility(!!value);
+										}}
+									>
+										{column.id}
+									</DropdownMenuCheckboxItem>
+								);
+							})}
+						;
 					</DropdownMenuContent>
 				</DropdownMenu>
 			</div>
