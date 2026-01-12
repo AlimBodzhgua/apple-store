@@ -68,10 +68,10 @@ export const columns: ColumnDef<Category>[] = [
 					router.refresh();
 					toast.success('Category succesfully deleted');
 				} catch {
-					toast.error('Error deleteing color', {
+					toast.error('Error deleting color', {
 						position: 'top-center',
 						description:
-							'Something went wrong trying to delete the color, reload the page or try againt later',
+							'Something went wrong trying to delete the color, reload the page or try against later',
 					});
 				}
 			};

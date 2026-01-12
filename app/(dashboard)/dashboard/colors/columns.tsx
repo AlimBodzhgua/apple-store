@@ -84,12 +84,12 @@ export const columns: ColumnDef<Color>[] = [
 				try {
 					await removeColor(colorId);
 					router.refresh();
-					toast.success('Color succesfully deleted', { position: 'top-center' });
+					toast.success('Color successfully deleted', { position: 'top-center' });
 				} catch {
-					toast.error('Error deleteing color', {
+					toast.error('Error deleting color', {
 						position: 'top-center',
 						description:
-							'Something went wrong trying to delete the color, reload the page or try againt later',
+							'Something went wrong trying to delete the color, reload the page or try against later',
 					});
 				}
 			};
