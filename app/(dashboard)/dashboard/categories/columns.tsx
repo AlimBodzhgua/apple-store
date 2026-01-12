@@ -66,7 +66,7 @@ export const columns: ColumnDef<Category>[] = [
 				try {
 					await removeCategory(categoryId);
 					router.refresh();
-					toast.success('Category succesfully deleted');
+					toast.success('Category successfully deleted');
 				} catch {
 					toast.error('Error deleting color', {
 						position: 'top-center',
@@ -88,7 +88,7 @@ export const columns: ColumnDef<Category>[] = [
 							variant='outline'
 							className='hover:text-red-500 hover:border-red-500'
 						>
-							<TrashIcon />
+							<TrashIcon size={15} />
 						</Button>
 					</DeleteConfirmAlert>
 
@@ -99,7 +99,7 @@ export const columns: ColumnDef<Category>[] = [
 								variant='outline'
 								className='hover:text-blue-500 hover:border-blue-500'
 							>
-								<SquarePenIcon />
+								<SquarePenIcon size={15} />
 							</Button>
 						</DialogTrigger>
 						<DialogContent className='sm:max-w-[425px]'>
