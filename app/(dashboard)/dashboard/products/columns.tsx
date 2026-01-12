@@ -18,6 +18,8 @@ import {
 } from '@/components/ui/dialog';
 
 import { DeleteConfirmAlert } from '../_components/delete-confirm-alert';
+import { CategoryCell } from './_components/category-cell';
+import { ColorCell } from './_components/color-cell';
 import { UpdateProductForm } from './_components/update-product-form';
 
 const removeProduct = async (id: string): Promise<Product[]> => {
@@ -89,10 +91,12 @@ export const columns: ColumnDef<Product>[] = [
 	{
 		accessorKey: 'categoryId',
 		header: 'Category Id',
+		cell: ({ row }) => <CategoryCell categoryId={row.original.categoryId} />,
 	},
 	{
 		accessorKey: 'colorId',
 		header: 'Color Id',
+		cell: ({ row }) => <ColorCell colorId={row.original.colorId} />,
 	},
 	createDateColumn('createdAt', 'Created At'),
 	createDateColumn('updatedAt', 'Updated At'),
