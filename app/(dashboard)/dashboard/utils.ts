@@ -28,3 +28,23 @@ export const updateColumnVisibility = (columnId: string, isVisible: boolean) => 
 		localStorage.setItem(storageKey, JSON.stringify(visibilityColumns));
 	}
 };
+
+export const formatCurrency = (amount: number) => {
+	const currencyFormatter = new Intl.NumberFormat('en-US', {
+		style: 'currency',
+		currency: 'USD',
+	});
+
+	return currencyFormatter.format(amount);
+};
+
+export const formatDate = (timestamp: number | string | Date) => {
+	const date = new Date(timestamp);
+
+	const dateFormatter = new Intl.DateTimeFormat('en-US', {
+		dateStyle: 'medium',
+		timeStyle: 'short',
+	});
+
+	return dateFormatter.format(date);
+};

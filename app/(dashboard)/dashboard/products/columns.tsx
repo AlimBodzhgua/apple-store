@@ -18,6 +18,7 @@ import {
 } from '@/components/ui/dialog';
 
 import { DeleteConfirmAlert } from '../_components/delete-confirm-alert';
+import { formatCurrency, formatDate } from '../utils';
 import { CategoryCell } from './_components/category-cell';
 import { ColorCell } from './_components/color-cell';
 import { UpdateProductForm } from './_components/update-product-form';
@@ -32,27 +33,6 @@ const removeProduct = async (id: string): Promise<Product[]> => {
 	}
 
 	return response.json();
-};
-
-const createDateColumn = (
-	accessorKey: 'createdAt' | 'updatedAt',
-	header: string,
-): ColumnDef<Product> => {
-	const dateFormatter = new Intl.DateTimeFormat('en-US', {
-		dateStyle: 'medium',
-		timeStyle: 'short',
-	});
-
-	return {
-		accessorKey,
-		header,
-		cell: ({ row }) => {
-			const dateValue = Number.parseFloat(row.getValue(accessorKey));
-			const formattedDate = dateFormatter.format(dateValue);
-
-			return <div className='text-left font-medium'>{formattedDate}</div>;
-		},
-	};
 };
 
 export const columns: ColumnDef<Product>[] = [
@@ -75,18 +55,9 @@ export const columns: ColumnDef<Product>[] = [
 	{
 		accessorKey: 'price',
 		header: 'Price',
-		cell: ({ row }) => {
-			const price = Number.parseFloat(row.getValue('price'));
-
-			const formatter = new Intl.NumberFormat('en-US', {
-				style: 'currency',
-				currency: 'USD',
-			});
-
-			const formattedPrice = formatter.format(price);
-
-			return <div className='text-left font-medium'>{formattedPrice}</div>;
-		},
+		cell: ({ row }) => (
+			<div className='text-left font-medium'>{formatCurrency(row.original.price)}</div>
+		),
 	},
 	{
 		accessorKey: 'categoryId',
@@ -98,8 +69,20 @@ export const columns: ColumnDef<Product>[] = [
 		header: 'Color Id',
 		cell: ({ row }) => <ColorCell colorId={row.original.colorId} />,
 	},
-	createDateColumn('createdAt', 'Created At'),
-	createDateColumn('updatedAt', 'Updated At'),
+	{
+		accessorKey: 'createdAt',
+		header: 'Created At',
+		cell: ({ row }) => (
+			<div className='text-left font-medium'>{formatDate(row.original.createdAt)}</div>
+		),
+	},
+	{
+		accessorKey: 'updatedAt',
+		header: 'Updated At',
+		cell: ({ row }) => (
+			<div className='text-left font-medium'>{formatDate(row.original.updatedAt)}</div>
+		),
+	},
 	{
 		id: 'actions',
 		header: 'Actions',
