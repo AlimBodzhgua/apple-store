@@ -6,6 +6,7 @@ export type DashboardFormsStateErrors = {
 	description?: string[];
 	price?: string[];
 	hexCode?: string[];
+	file?: string[];
 	colorId?: string[];
 	categoryId?: string[];
 	general?: string;

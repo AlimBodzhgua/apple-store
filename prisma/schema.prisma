@@ -89,6 +89,10 @@ model Product {
 	description 	String
 	price 			Int
 
+	imageData		Bytes? 	@db.ByteA
+	imageName		String?
+	imageType		String?
+
 	category	Category	@relation(fields: [categoryId], references: [id])
 	categoryId	String
 

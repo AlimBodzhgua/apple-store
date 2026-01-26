@@ -160,6 +160,23 @@ export function ProductForm(props: ProductFormProps) {
 				)}
 			</div>
 
+			<div className='mb-4'>
+				<Label htmlFor='image' className='pl-1 mb-1'>
+					Image
+				</Label>
+				<Input
+					className='hover:cursor-pointer'
+					name='image'
+					id='image'
+					type='file'
+				/>
+				{state.errors?.file && (
+					<div className='text-red-400 w-full text-left pl-1 mt-2'>
+						{state.errors.file}
+					</div>
+				)}
+			</div>
+
 			{additionalFormSelectors}
 
 			{state.errors?.categoryId && (

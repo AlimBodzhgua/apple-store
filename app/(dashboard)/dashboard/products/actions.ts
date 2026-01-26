@@ -1,48 +1,59 @@
 'use server';
 
 import type { DashboardFormsStateType } from '../types';
+import type { Product } from '@/prisma/generated/prisma/client';
 
 import { updateTag } from 'next/cache';
 import { z } from 'zod';
 import { prisma } from '@/shared/lib/prisma';
 
-const productFormSchema = z.object({
-	name: z.string().min(3, { message: 'Product name must contain at leat 3 characters' }),
+const baseProductSchema = z.object({
+	name: z.string().min(3, { message: 'Product name must contain at least 3 characters' }),
+	price: z.coerce.number().positive('Price must be positive number'),
+	description: z
+		.string()
+		.min(8, { message: 'Description must contain at least 8 characters' }),
 	slug: z
 		.string()
 		.regex(
 			/^[a-z0-9]+(?:-[a-z0-9]+)*$/,
 			'Invalid slug format. Slugs must contain only lowercase characters and hyphens, and cannot start or end with a hyphen.',
 		),
-	description: z
-		.string()
-		.min(8, { message: 'Description must contain at leat 8 characters' }),
-	price: z.coerce.number().positive('Price must be positive number'),
+});
+
+const createProductFormSchema = baseProductSchema.extend({
 	colorId: z.string().min(1, { message: 'Color id is required field' }),
 	categoryId: z.string().min(1, { message: 'Category id is required field' }),
+	file: z
+		.instanceof(File, { message: 'File is required' })
+		.refine((file) => file.size > 0, { message: 'File not chosen or empty' })
+		.refine((file) => file.size <= 1 * 1024 * 1024, { message: 'Max file size is 1 MB' }),
+});
+
+const updateProductFormSchema = baseProductSchema.extend({
+	file: z.union([
+		z.instanceof(File).optional(),
+		z.instanceof(File)
+			.refine((file) => file.size > 0, { message: 'File not chosen or empty' })
+			.refine((file) => file.size <= 1 * 1024 * 1024, { message: 'Max file size is 1 MB' }),
+	]),
 });
 
 export const createProductAction = async (
 	prevState: DashboardFormsStateType | null,
 	data: FormData,
 ): Promise<DashboardFormsStateType> => {
-	const name = data.get('name');
-	const slug = data.get('slug');
-	const description = data.get('description');
-	const price = data.get('price');
+	const dataToValidate = {
+		name: data.get('name'),
+		slug: data.get('slug'),
+		description: data.get('description'),
+		price: data.get('price'),
+		colorId: data.get('color'),
+		categoryId: data.get('category'),
+		file: data.get('image'),
+	};
 
-	const colorId = data.get('color');
-	const categoryId = data.get('category');
-
-	const validationResult = productFormSchema.safeParse({
-		name,
-		slug,
-		description,
-		price,
-
-		colorId,
-		categoryId,
-	});
+	const validationResult = createProductFormSchema.safeParse(dataToValidate);
 
 	if (!validationResult.success) {
 		const flatten = z.flattenError(validationResult.error);
@@ -53,38 +64,44 @@ export const createProductAction = async (
 				slug: flatten.fieldErrors.slug,
 				description: flatten.fieldErrors.description,
 				price: flatten.fieldErrors.price,
-
+				file: flatten.fieldErrors.file,
 				colorId: flatten.fieldErrors.colorId,
 				categoryId: flatten.fieldErrors.categoryId,
 			},
 		};
 	}
 
-	updateTag('/dashboard/products');
+	const file = validationResult.data.file as File;
+	const arrayBuffer = await file.arrayBuffer();
+	const imageData = new Uint8Array(arrayBuffer);
 
 	try {
 		await prisma.product.create({
 			data: {
-				name: name as string,
-				slug: slug as string,
-				description: description as string,
-				price: Number(price),
-				colorId: colorId as string,
-				categoryId: categoryId as string,
+				name: validationResult.data.name,
+				slug: validationResult.data.slug,
+				description: validationResult.data.description,
+				price: validationResult.data.price,
+				colorId: validationResult.data.colorId,
+				categoryId: validationResult.data.categoryId,
+				imageData,
+				imageType: validationResult.data.file.type,
+				imageName: validationResult.data.file.name,
 			},
 		});
 
+		updateTag('/dashboard/products');
+
 		return {
 			success: true,
-			message: 'Product succesfully created',
+			message: 'Product successfully created',
 		};
 	} catch (error) {
-		let errorMsg
-			= 'An error occurred during create product, reload the page or try it later';
+		console.error(error);
 
-		if (error instanceof Error) {
-			errorMsg = error.message;
-		}
+		const errorMsg = error instanceof Error
+			? error.message
+			: 'An error occurred during create category, reload the page or try it later';
 
 		return { errors: { general: errorMsg } };
 	}
@@ -94,73 +111,81 @@ export const updateProductAction = async (
 	prevState: DashboardFormsStateType | null,
 	data: FormData,
 ): Promise<DashboardFormsStateType> => {
-	const id = data.get('id');
-	const name = data.get('name');
-	const slug = data.get('slug');
-	const description = data.get('description');
-	const price = data.get('price');
+	const id = data.get('id') as string;
+
+	const dataToValidate = {
+		name: data.get('name'),
+		slug: data.get('slug'),
+		description: data.get('description'),
+		price: data.get('price'),
+		colorId: data.get('color'),
+		categoryId: data.get('category'),
+		file: data.get('image'),
+	};
+
+	const validationResult = updateProductFormSchema.safeParse(dataToValidate);
+
+	if (!validationResult.success) {
+		const flatten = z.flattenError(validationResult.error);
+
+		return {
+			errors: {
+				name: flatten.fieldErrors.name,
+				slug: flatten.fieldErrors.slug,
+				description: flatten.fieldErrors.description,
+				price: flatten.fieldErrors.price,
+				file: flatten.fieldErrors.file,
+			},
+		};
+	}
 
 	try {
 		const product = await prisma.product.findFirst({
-			where: {
-				id: id as string,
-			},
+			where: { id },
 		});
 
 		if (!product) {
-			return {
-				success: false,
-				message: 'Product not found',
-			};
+			return { success: false, message: 'Product not found' };
 		}
 
-		const validationResult = productFormSchema.safeParse({
-			name,
-			slug,
-			description,
-			price,
-			categoryId: product.categoryId,
-			colorId: product.colorId,
-		});
+		let updateData: Partial<Product> = {
+			name: validationResult.data.name,
+			slug: validationResult.data.slug,
+			description: validationResult.data.description,
+			price: validationResult.data.price,
+		};
 
-		if (!validationResult.success) {
-			const flatten = z.flattenError(validationResult.error);
+		const file = validationResult.data.file as File;
 
-			return {
-				errors: {
-					name: flatten.fieldErrors.name,
-					slug: flatten.fieldErrors.slug,
-					description: flatten.fieldErrors.description,
-					price: flatten.fieldErrors.price,
-				},
+		if (file && file instanceof File && file.size > 0) {
+			const arrayBuffer = await file.arrayBuffer();
+			const uint8Array = new Uint8Array(arrayBuffer);
+
+			updateData = {
+				...updateData,
+				imageData: uint8Array,
+				imageType: file.type,
+				imageName: file.name,
 			};
 		}
 
 		await prisma.product.update({
-			where: {
-				id: id as string,
-			},
-			data: {
-				name: name as string,
-				slug: slug as string,
-				description: description as string,
-				price: Number(price),
-			},
+			where: { id },
+			data: updateData,
 		});
 
 		updateTag('/dashboard/products');
 
 		return {
 			success: true,
-			message: 'Product succesfully updated',
+			message: 'Product successfully updated',
 		};
 	} catch (error) {
-		let errorMsg
-			= 'An error occurred during create category, reload the page or try it later';
+		console.error(error);
 
-		if (error instanceof Error) {
-			errorMsg = error.message;
-		}
+		const errorMsg = error instanceof Error
+			? error.message
+			: 'An error occurred during create category, reload the page or try it later';
 
 		return { errors: { general: errorMsg } };
 	}

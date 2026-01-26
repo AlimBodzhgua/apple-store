@@ -21,6 +21,7 @@ import { DeleteConfirmAlert } from '../_components/delete-confirm-alert';
 import { formatCurrency, formatDate } from '../utils';
 import { CategoryCell } from './_components/category-cell';
 import { ColorCell } from './_components/color-cell';
+import { ImageCell } from './_components/image-cell';
 import { UpdateProductForm } from './_components/update-product-form';
 
 const removeProduct = async (id: string): Promise<Product[]> => {
@@ -43,6 +44,13 @@ export const columns: ColumnDef<Product>[] = [
 	{
 		accessorKey: 'name',
 		header: 'Name',
+	},
+	{
+		accessorKey: 'image',
+		header: 'Image',
+		cell: ({ row }) => (
+			<ImageCell imageName={row.original.imageName!} productId={row.original.id} />
+		),
 	},
 	{
 		accessorKey: 'slug',
