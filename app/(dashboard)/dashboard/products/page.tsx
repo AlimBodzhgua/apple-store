@@ -22,7 +22,7 @@ export default function Products() {
 	const products = use(getProducts());
 
 	return (
-		<Container className='flex flex-col h-full justify-start py-5'>
+		<Container className='flex flex-col justify-start py-5'>
 			<PageHeader
 				title='Products'
 				buttonText='Add Product'
