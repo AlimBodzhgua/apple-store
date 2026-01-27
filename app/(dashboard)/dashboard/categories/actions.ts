@@ -7,20 +7,22 @@ import { z } from 'zod';
 import { prisma } from '@/shared/lib/prisma';
 
 const categoryFormSchema = z.object({
-	name: z.string().min(3, { message: 'Product name must contain at leat 3 characters' }),
+	name: z.string().min(3, { message: 'Product name must contain at least 3 characters' }),
 	description: z
 		.string()
-		.min(8, { message: 'Description must contain at leat 8 characters' }),
+		.min(8, { message: 'Description must contain at least 8 characters' }),
 });
 
 export const createCategoryAction = async (
 	prevState: DashboardFormsStateType | null,
 	data: FormData,
 ): Promise<DashboardFormsStateType> => {
-	const name = data.get('name');
-	const description = data.get('description');
+	const dataToValidate = {
+		name: data.get('name'),
+		description: data.get('description'),
+	};
 
-	const validationResult = categoryFormSchema.safeParse({ name, description });
+	const validationResult = categoryFormSchema.safeParse(dataToValidate);
 
 	if (!validationResult.success) {
 		const flatten = z.flattenError(validationResult.error);
@@ -36,8 +38,8 @@ export const createCategoryAction = async (
 	try {
 		await prisma.category.create({
 			data: {
-				name: name as string,
-				description: description as string,
+				name: validationResult.data.name,
+				description: validationResult.data.description,
 			},
 		});
 
@@ -49,12 +51,11 @@ export const createCategoryAction = async (
 			message: 'Category successfully created',
 		};
 	} catch (error) {
-		let errorMsg
-			= 'An error occurred during create category, reload the page or try it later';
+		console.error(error);
 
-		if (error instanceof Error) {
-			errorMsg = error.message;
-		}
+		const errorMsg = error instanceof Error
+			? error.message
+			: 'An error occurred during create category, reload the page or try it later';
 
 		return { errors: { general: errorMsg } };
 	}
@@ -64,11 +65,14 @@ export const updateCategoryAction = async (
 	prevState: DashboardFormsStateType | null,
 	data: FormData,
 ): Promise<DashboardFormsStateType> => {
-	const id = data.get('id');
-	const name = data.get('name');
-	const description = data.get('description');
+	const id = data.get('id') as string;
 
-	const validationResult = categoryFormSchema.safeParse({ name, description });
+	const dataToValidate = {
+		name: data.get('name'),
+		description: data.get('description'),
+	};
+
+	const validationResult = categoryFormSchema.safeParse(dataToValidate);
 
 	if (!validationResult.success) {
 		const flatten = z.flattenError(validationResult.error);
@@ -83,16 +87,11 @@ export const updateCategoryAction = async (
 
 	try {
 		const category = await prisma.category.findFirst({
-			where: {
-				id: id as string,
-			},
+			where: { id },
 		});
 
 		if (!category) {
-			return {
-				success: false,
-				message: 'Category not found',
-			};
+			return { success: false, message: 'Category not found' };
 		}
 
 		await prisma.category.update({
@@ -100,8 +99,8 @@ export const updateCategoryAction = async (
 				id: id as string,
 			},
 			data: {
-				name: name as string,
-				description: description as string,
+				name: validationResult.data.name,
+				description: validationResult.data.description,
 			},
 		});
 
@@ -112,11 +111,11 @@ export const updateCategoryAction = async (
 			message: 'Category successfully updated',
 		};
 	} catch (error) {
-		let errorMsg = 'An error occurred during create category, reload the page or try it later';
+		console.error(error);
 
-		if (error instanceof Error) {
-			errorMsg = error.message;
-		}
+		const errorMsg = error instanceof Error
+			? error.message
+			: 'An error occurred during create category, reload the page or try it later';
 
 		return { errors: { general: errorMsg } };
 	}
