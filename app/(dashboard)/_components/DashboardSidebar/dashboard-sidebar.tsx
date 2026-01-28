@@ -9,9 +9,11 @@ import {
 } from 'lucide-react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Button } from '@/components/ui/button';
 import { cn } from '@/shared/lib/utils';
+
+import { SIDEBAR_LOCALSTORAGE_KEY } from '../../dashboard/constants';
 import { SidebarItem } from './sidebar-item';
 import { sidebarList } from './sidebar-list';
 
@@ -22,7 +24,21 @@ type DashboardSidebarProps = {
 export const DashboardSidebar: FC<DashboardSidebarProps> = () => {
 	const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
 
-	const toggleIsCollapsed = () => setIsCollapsed((prev) => !prev);
+	useEffect(() => {
+		const collapsed = localStorage.getItem(SIDEBAR_LOCALSTORAGE_KEY);
+
+		setIsCollapsed(!!collapsed);
+	}, []);
+
+	const toggleIsCollapsed = () => {
+		setIsCollapsed((prev) => !prev);
+
+		if (!isCollapsed) {
+			localStorage.setItem(SIDEBAR_LOCALSTORAGE_KEY, 'collapsed');
+		} else {
+			localStorage.removeItem(SIDEBAR_LOCALSTORAGE_KEY);
+		}
+	};
 
 	return (
 		<aside
