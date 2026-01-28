@@ -1,11 +1,11 @@
 import type { ReactNode } from 'react';
 import {
 	Box as BoxIcon,
-	Palette as PalleteIcon,
+	Palette as PaletteIcon,
 	Tag as TagIcon,
 } from 'lucide-react';
 
-type SidebarItemType = {
+export type SidebarItemType = {
 	path: string;
 	name: string;
 	Icon: ReactNode;
@@ -25,6 +25,6 @@ export const sidebarList: SidebarItemType[] = [
 	{
 		path: '/colors',
 		name: 'Colors',
-		Icon: <PalleteIcon />,
+		Icon: <PaletteIcon />,
 	},
 ];

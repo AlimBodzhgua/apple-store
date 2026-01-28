@@ -1,6 +1,18 @@
+'use client';
+
 import type { FC } from 'react';
-import { LayoutDashboard as LayoutDashboardIcon } from 'lucide-react';
+
+import {
+	LayoutDashboard as LayoutDashboardIcon,
+	PanelLeftOpen as PanelLeftOpenIcon,
+	PanelRightOpen as PanelRightOpenIcon,
+} from 'lucide-react';
+import Image from 'next/image';
 import Link from 'next/link';
+import { useState } from 'react';
+import { Button } from '@/components/ui/button';
+import { cn } from '@/shared/lib/utils';
+import { SidebarItem } from './sidebar-item';
 import { sidebarList } from './sidebar-list';
 
 type DashboardSidebarProps = {
@@ -8,32 +20,66 @@ type DashboardSidebarProps = {
 };
 
 export const DashboardSidebar: FC<DashboardSidebarProps> = () => {
+	const [isCollapsed, setIsCollapsed] = useState<boolean>(false);
+
+	const toggleIsCollapsed = () => setIsCollapsed((prev) => !prev);
+
 	return (
-		<aside className='h-screen w-[220] text-amber-50 bg-gray-950 py-5 px-4'>
-			<Link href='/' className='flex justify-center items-center mb-10'>
-				<h1 className='text-2xl font-extrabold'>
-					Apple
+		<aside
+			className={cn(
+				'h-screen w-[220] text-amber-50 bg-gray-950 py-5 px-4 relative transition-all',
+				isCollapsed && 'w-[80]',
+			)}
+		>
+			<Link
+				href='/'
+				className='flex justify-center transition-opacity items-center mb-10 hover:opacity-85'
+			>
+				<Image
+					src='/apple-logo-white.svg'
+					alt='Apple logo icon'
+					width={25}
+					height={25}
+					className={cn('transition-transform w-0', isCollapsed && 'w-fit')}
+				/>
+				<h1
+					className={cn(
+						'text-2xl font-extrabold transition-transform overflow-hidden',
+						isCollapsed && 'w-0',
+					)}
+				>
+					<span>Apple</span>
 					<span className='text-gray-400'>Store</span>
 				</h1>
 			</Link>
 
-			<div className='flex items-center gap-2 my-6'>
+			<div
+				className={cn(
+					'flex items-center gap-2 my-6',
+					isCollapsed && 'justify-center gap-0',
+				)}
+			>
 				<LayoutDashboardIcon />
-				<h1 className='text-2xl font-bold'>Dashboard</h1>
+				<h1
+					className={cn(
+						'text-2xl font-bold overflow-hidden transition-all',
+						isCollapsed && 'w-0',
+					)}
+				>
+					Dashboard
+				</h1>
 			</div>
 			<ul>
 				{sidebarList.map((item) => (
-					<li key={item.path}>
-						<Link
-							href={`/dashboard${item.path}`}
-							className='flex items-center p-1 gap-2 my-3 text-[1.2rem] rounded-2xl hover:text-gray-950 hover:bg-amber-50'
-						>
-							{item.Icon}
-							{item.name}
-						</Link>
-					</li>
+					<SidebarItem key={item.path} item={item} collapsed={isCollapsed} />
 				))}
 			</ul>
+			<Button
+				onClick={toggleIsCollapsed}
+				className='absolute top-3 -right-11 rounded-bl-none rounded-tl-none'
+			>
+				{isCollapsed ? <PanelLeftOpenIcon /> : <PanelRightOpenIcon />}
+			</Button>
 		</aside>
 	);
 };
